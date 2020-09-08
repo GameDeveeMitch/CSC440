@@ -8,23 +8,23 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\Axton2323\\.nuget\\packages\\": {},
+    "C:\\Users\\Teddy\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Axton2323\\Documents\\CSC440\\Student_Alarm_Clock\\Student_Alarm_Clock\\Student_Alarm_Clock.csproj",
+      "projectUniqueName": "C:\\Users\\Teddy\\Source\\Repos\\CSC440_clock\\Student_Alarm_Clock\\Student_Alarm_Clock\\Student_Alarm_Clock.csproj",
       "projectName": "Student_Alarm_Clock",
-      "projectPath": "C:\\Users\\Axton2323\\Documents\\CSC440\\Student_Alarm_Clock\\Student_Alarm_Clock\\Student_Alarm_Clock.csproj",
-      "packagesPath": "C:\\Users\\Axton2323\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Axton2323\\Documents\\CSC440\\Student_Alarm_Clock\\Student_Alarm_Clock\\obj\\",
+      "projectPath": "C:\\Users\\Teddy\\Source\\Repos\\CSC440_clock\\Student_Alarm_Clock\\Student_Alarm_Clock\\Student_Alarm_Clock.csproj",
+      "packagesPath": "C:\\Users\\Teddy\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Teddy\\Source\\Repos\\CSC440_clock\\Student_Alarm_Clock\\Student_Alarm_Clock\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Axton2323\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Teddy\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -48,24 +48,10 @@
     "frameworks": {
       "netcoreapp3.1": {
         "imports": [
-          "net461",
-          "net462",
-          "net47",
-          "net471",
-          "net472",
-          "net48"
+          "net461"
         ],
         "assetTargetFallback": true,
-        "warn": true,
-        "frameworkReferences": {
-          "Microsoft.AspNetCore.App": {
-            "privateAssets": "none"
-          },
-          "Microsoft.NETCore.App": {
-            "privateAssets": "all"
-          }
-        },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        "warn": true
       }
     }
   }

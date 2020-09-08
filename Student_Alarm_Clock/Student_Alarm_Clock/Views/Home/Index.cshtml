@@ -3,6 +3,23 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome To The Terradome</h1>
+    <p id="date">Date</p>
+    <p id="time">Time</p>
 </div>
+<label for="hour">Hour</label>
+<input id="hour" type="number" max="12" min="0" />
+
+<label for="minute">Minute</label>
+<input id="minute" type="number" max="60" min="0" />
+
+<label for="second">Second</label>
+<input id="second" type="number" max="60" min="0" />
+
+<label for="amPm">AM/PM</label>
+<select id="amPm">
+    <option value="AM">AM</option>
+    <option value="PM">PM</option>
+</select>
+<br /> <br />
+<button type="button" class="btn btn-primary" id="createAlarm">Set Alarm</button>
