@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Student_Alarm_Clock", "Student_Alarm_Clock\Student_Alarm_Clock.csproj", "{CA567D74-1DBC-4A85-A839-A5F7D05DC12D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Student_Alarm_Clock", "Student_Alarm_Clock\Student_Alarm_Clock.csproj", "{D9682095-CB05-4197-876A-D8751BD68608}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CA567D74-1DBC-4A85-A839-A5F7D05DC12D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA567D74-1DBC-4A85-A839-A5F7D05DC12D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA567D74-1DBC-4A85-A839-A5F7D05DC12D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA567D74-1DBC-4A85-A839-A5F7D05DC12D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9682095-CB05-4197-876A-D8751BD68608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9682095-CB05-4197-876A-D8751BD68608}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9682095-CB05-4197-876A-D8751BD68608}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9682095-CB05-4197-876A-D8751BD68608}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {73C94C55-9CCC-46CC-BFA6-9E5BB1F5C2A3}
+		SolutionGuid = {F2B05CEB-99F8-4FFC-9351-7DDBCDA76FB5}
 	EndGlobalSection
 EndGlobal
