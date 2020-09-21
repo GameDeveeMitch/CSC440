@@ -24,36 +24,15 @@
 
         setTimeout(clockUpdate, 1000);
     }
-
-    function numberWithLeadingZeros(num) {
-        if (num < 10) {
-            return '0' + num;
-        }
-        else {
-            return num;
-        }
-    }
-
-    function formatHours(hours) {
-        if (hours < 12) {
-            return hours;
-        }
-        else {
-            return hours - 12;
-        }
-    }
-
-    function getAMPM(hours) {
-        if (hours < 12) {
-            return "AM";
-        }
-
-        else {
-            return "PM";
-        }
-    }
+    //this function will delete the table row and take the alarm out of the alarms array at the same time
+    //when the delete button is clicked. Pretty slick.
+    $(document).on('click', 'button.deleteAlarm' , function () {
+        alarms.splice(this.id, 1);
+        $(this).parent().parent().remove();
+    });
 
     $('#createAlarm').click(function () {
+        var alarmName = $("#alarmName").val();
         var hours = $("#hour").val();
         var minutes = $("#minute").val();
         var seconds = $("#second").val();
@@ -67,12 +46,14 @@
             hours = parseInt(hours) + 12;
         }
 
-        console.log(hours);
         var date = new Date();
         date.setHours(hours);
         date.setMinutes(minutes);
         date.setSeconds(seconds);
         alarms.push(date);
         console.log(alarms);
+
+        $("#alarms").append("<tr><td>" + alarmName + "</td><td>" + date.toLocaleTimeString() + " on "
+            + date.toLocaleDateString() + "</td>" + "<td> <button class=\"btn btn-danger deleteAlarm\" id=\"" + (alarms.length - 1) + "\">Delete</button></td></tr>");
     });
 });
