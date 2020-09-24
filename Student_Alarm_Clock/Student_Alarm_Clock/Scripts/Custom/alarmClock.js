@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿//wait for the document and elements to load before we do our thang.
+$(document).ready(function () {
     var id = 0;
     var alarms = [];
     //clockUpdate is the main loop for the alarm clock. We need tocall it every second to update the clock.
