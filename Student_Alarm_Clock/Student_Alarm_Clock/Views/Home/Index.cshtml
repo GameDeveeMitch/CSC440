@@ -22,21 +22,18 @@
     <div class="col-sm-6">
         <label for="alarmName">Alarm Name</label>
         <input id="alarmName" type="text" />
-        <label for="hour">Hour</label>
-        <input id="hour" type="number" max="12" min="0" />
-        <label for="minute">Minute</label>
-        <input id="minute" type="number" max="60" min="0" />
-        <label for="second">Second</label>
-        <input id="second" type="number" max="60" min="0" />
-        <label for="amPm">AM/PM</label>
-        <select id="amPm">
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-        </select>
+        <label for="time">Time</label>
+        <input id="alarmTime" type="time" />
+        <label for="seconds">Seconds</label>
+        <input id="seconds" type="number" max="60" min="0" />
 
         <br />
         <br />
+        <label for="Date">Date</label>
+        <input id="alarmDate" type="date" />
 
+        <br />
+        <br />
         <button type="button" class="btn btn-primary" id="createAlarm">Set Alarm</button>
     </div>
     <div class="col-sm-6">
