@@ -33,11 +33,8 @@ $(document).ready(function () {
                     //the alarm has triggered so it can flash red :)
                     alarms[i].isTriggered = true;
                     //we're changing the button and classes so we'll activate the dismiss button function, not the delete button fucntion!
-                    $("#delete" + alarms[i].alarmId).addClass("btn-success");
-                    $("#delete" + alarms[i].alarmId).addClass("dismissAlarm");
-                    $("#delete" + alarms[i].alarmId).removeClass("btn-danger");
-                    $("#delete" + alarms[i].alarmId).removeClass("deleteAlarm");
-                    $("#delete" + alarms[i].alarmId).text("Dismiss");
+                    changeButtonState(("#delete" + alarms[i].alarmId), "btn-success", "dismissAlarm", "btn-danger", "deleteAlarm", "Dismiss");
+                    $("#update" + alarms[i].alarmId).prop("disabled", true);
                     //let's get this flashing started!
                     flashRow($("#delete" + alarms[i].alarmId).parent().parent());
                 }
@@ -64,12 +61,8 @@ $(document).ready(function () {
             //substring out the "delete" that is before the id number.
             if (alarms[i].alarmId == this.id.substring(6)) {
                 alarms[i].isTriggered = false;
-                $(this).parent().parent().css('background-color', "white");
-                $(this).removeClass("btn-success");
-                $(this).removeClass("dismissAlarm");
-                $(this).addClass("btn-danger");
-                $(this).addClass("deleteAlarm");
-                $(this).text("Delete");
+                changeButtonState(this, "btn-danger", "deleteAlarm", "btn-success", "dismissAlarm", "Delete");
+                $("#update" + alarms[i].alarmId).prop("disabled", false);
                 break;
             }
         }
@@ -88,17 +81,8 @@ $(document).ready(function () {
                     + "Date :<input id=\"newAlarmDate" + alarms[i].alarmId + "\" type=\"date\" value=\"" + alarms[i].alarmDateTime.getFullYear() + "-" + (alarms[i].alarmDateTime.getMonth() + 1) + "-"
                     + alarms[i].alarmDateTime.getDate() + "\">");
                 //Changing the delete and update buttons to better suit updating
-                //TYLER TODO: make a funciton for this so I stop copy pasting this code.
-                $(this).removeClass("btn-primary");
-                $(this).removeClass("updateAlarm");
-                $(this).addClass("btn-success");
-                $(this).addClass("confirmUpdate");
-                $(this).text("Confirm");
-                $("#delete" + alarms[i].alarmId).removeClass("btn-danger");
-                $("#delete" + alarms[i].alarmId).removeClass("deleteAlarm");
-                $("#delete" + alarms[i].alarmId).addClass("btn-primary");
-                $("#delete" + alarms[i].alarmId).addClass("cancelUpdate");
-                $("#delete" + alarms[i].alarmId).text("Cancel");
+                changeButtonState(this, "btn-success", "confirmUpdate", "btn-primary", "updateAlarm", "Confirm");
+                changeButtonState(("#delete" + alarms[i].alarmId), "btn-primary", "cancelUpdate", "btn-danger", "deleteAlarm", "Cancel");
                 break;
             }
         }
@@ -112,16 +96,8 @@ $(document).ready(function () {
                 $("#alarmTime" + this.id.substring(6)).html(alarms[i].alarmDateTime.toLocaleTimeString()
                     + " on " + alarms[i].alarmDateTime.toLocaleDateString());
 
-                $(this).removeClass("btn-primary");
-                $(this).removeClass("cancelAlarm");
-                $(this).addClass("btn-danger");
-                $(this).addClass("deleteAlarm");
-                $(this).text("Delete");
-                $("#update" + alarms[i].alarmId).removeClass("btn-success");
-                $("#update" + alarms[i].alarmId).removeClass("confirmUpdate");
-                $("#update" + alarms[i].alarmId).addClass("btn-primary");
-                $("#update" + alarms[i].alarmId).addClass("updateAlarm");
-                $("#update" + alarms[i].alarmId).text("Update");
+                changeButtonState(this, "btn-danger", "deleteAlarm", "btn-primary", "cancelAlarm", "Delete");
+                changeButtonState(("#update" + alarms[i].alarmId), "btn-primary", "updateAlarm", "btn-success", "confirmUpdate", "Update");
                 break;
             }
         }
@@ -161,16 +137,8 @@ $(document).ready(function () {
                 $("#alarmTime" + this.id.substring(6)).html(alarms[i].alarmDateTime.toLocaleTimeString()
                     + " on " + alarms[i].alarmDateTime.toLocaleDateString());
 
-                $(this).removeClass("btn-success");
-                $(this).removeClass("confirmUpdate");
-                $(this).addClass("btn-primary");
-                $(this).addClass("updateAlarm");
-                $(this).text("Update");
-                $("#delete" + alarms[i].alarmId).removeClass("btn-primary");
-                $("#delete" + alarms[i].alarmId).removeClass("cancelUpdate");
-                $("#delete" + alarms[i].alarmId).addClass("btn-danger");
-                $("#delete" + alarms[i].alarmId).addClass("cancelUpdate");
-                $("#delete" + alarms[i].alarmId).text("Delete");
+                changeButtonState(this, "btn-primary", "updateAlarm", "btn-success", "confirmUpdate", "Update");
+                changeButtonState(("#delete" + alarms[i].alarmId), "btn-danger", "deleteAlarm", "btn-primary", "cancelAlarm", "Delete");
                 break;
             }
         }
@@ -179,6 +147,19 @@ $(document).ready(function () {
     function flashRow(tableRow) {
         tableRow.css('background-color', "red");
         window.setTimeout(function () { tableRow.css('background-color', "white"); }, 300);
+    }
+    //
+    function changeButtonState(buttonSelector,
+        addedButtonStyle,
+        addedButtonSelectorClass,
+        removedButtonStyle,
+        removedButtonSelectorClass,
+        buttonText) {
+        $(buttonSelector).addClass(addedButtonStyle);
+        $(buttonSelector).addClass(addedButtonSelectorClass);
+        $(buttonSelector).removeClass(removedButtonStyle);
+        $(buttonSelector).removeClass(removedButtonSelectorClass);
+        $(buttonSelector).text(buttonText);
     }
     //When the "set alarm" button is clicked we take the info off the page and set up an alarm with it.
     $('#createAlarm').click(function () {
@@ -189,6 +170,9 @@ $(document).ready(function () {
         var hours = parseInt(time.substring(0, 2));
         var minutes = parseInt(time.substring(3, 5));
         var seconds = parseInt(time.substring(6, 8));
+        if (isNaN(seconds)) {
+            seconds = 0;
+        }
 
         var date = $("#alarmDate").val();
 
