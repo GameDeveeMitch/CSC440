@@ -14,7 +14,7 @@ namespace Student_Alarm_Clock.Model
     
     public partial class alarm_list
     {
-        public string alarmID { get; set; }
+        public int alarmID { get; set; }
         public string userID { get; set; }
         public Nullable<System.TimeSpan> wakeTime { get; set; }
         public Nullable<System.TimeSpan> yellowTime { get; set; }

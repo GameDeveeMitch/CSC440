@@ -161,6 +161,12 @@ $(document).ready(function () {
         $(buttonSelector).removeClass(removedButtonSelectorClass);
         $(buttonSelector).text(buttonText);
     }
+    $("#createAlarmTest").click(function(){
+       // window.location = window.location.href + "AddAlarmList";
+        $.post("addAlarm", function () {
+            console.log("yeet");
+        });
+    });
     //When the "set alarm" button is clicked we take the info off the page and set up an alarm with it.
     $('#createAlarm').click(function () {
         //most imput values come back as strings unless it's labed as a number

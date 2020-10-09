@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="alarmID" />
           </Key>
-          <Property Name="alarmID" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="alarmID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="userID" Type="varchar" MaxLength="18" />
           <Property Name="wakeTime" Type="time" Precision="7" />
           <Property Name="yellowTime" Type="time" Precision="7" />
@@ -50,7 +50,7 @@
           <Key>
             <PropertyRef Name="alarmID" />
           </Key>
-          <Property Name="alarmID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="alarmID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="userID" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
           <Property Name="wakeTime" Type="Time" Precision="7" />
           <Property Name="yellowTime" Type="Time" Precision="7" />

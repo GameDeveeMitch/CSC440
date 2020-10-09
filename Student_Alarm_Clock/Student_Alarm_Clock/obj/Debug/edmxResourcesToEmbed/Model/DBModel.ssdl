@@ -4,7 +4,7 @@
     <Key>
       <PropertyRef Name="alarmID" />
     </Key>
-    <Property Name="alarmID" Type="varchar" MaxLength="6" Nullable="false" />
+    <Property Name="alarmID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="userID" Type="varchar" MaxLength="18" />
     <Property Name="wakeTime" Type="time" Precision="7" />
     <Property Name="yellowTime" Type="time" Precision="7" />
