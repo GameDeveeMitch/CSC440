@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AlarmsModelStoreContainer" CdmEntityContainer="AlarmsEntities">
+    <EntitySetMapping Name="alarm_list">
+      <EntityTypeMapping TypeName="AlarmsModel.alarm_list">
+        <MappingFragment StoreEntitySet="alarm_list">
+          <ScalarProperty Name="alarmID" ColumnName="alarmID" />
+          <ScalarProperty Name="userID" ColumnName="userID" />
+          <ScalarProperty Name="wakeTime" ColumnName="wakeTime" />
+          <ScalarProperty Name="yellowTime" ColumnName="yellowTime" />
+          <ScalarProperty Name="redTime" ColumnName="redTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="alarm_log">
+      <EntityTypeMapping TypeName="AlarmsModel.alarm_log">
+        <MappingFragment StoreEntitySet="alarm_log">
+          <ScalarProperty Name="indexID" ColumnName="indexID" />
+          <ScalarProperty Name="alarmID" ColumnName="alarmID" />
+          <ScalarProperty Name="yellowStatus" ColumnName="yellowStatus" />
+          <ScalarProperty Name="redStatus" ColumnName="redStatus" />
+          <ScalarProperty Name="alarmUsed" ColumnName="alarmUsed" />
+          <ScalarProperty Name="logTime" ColumnName="logTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="user_list">
+      <EntityTypeMapping TypeName="AlarmsModel.user_list">
+        <MappingFragment StoreEntitySet="user_list">
+          <ScalarProperty Name="userID" ColumnName="userID" />
+          <ScalarProperty Name="sleepStatus" ColumnName="sleepStatus" />
+          <ScalarProperty Name="sleepCritical" ColumnName="sleepCritical" />
+          <ScalarProperty Name="wakeTime" ColumnName="wakeTime" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

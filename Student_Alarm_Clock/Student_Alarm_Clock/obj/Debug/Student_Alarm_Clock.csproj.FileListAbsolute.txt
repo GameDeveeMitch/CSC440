@@ -168,3 +168,7 @@ C:\Users\tgrady\Source\Repos\CSC440\Student_Alarm_Clock\Student_Alarm_Clock\bin\
 C:\Users\tgrady\Source\Repos\CSC440\Student_Alarm_Clock\Student_Alarm_Clock\bin\System.Net.Http.Formatting.xml
 C:\Users\tgrady\Source\Repos\CSC440\Student_Alarm_Clock\Student_Alarm_Clock\bin\System.Web.Http.xml
 C:\Users\tgrady\Source\Repos\CSC440\Student_Alarm_Clock\Student_Alarm_Clock\bin\System.Web.Http.WebHost.xml
+C:\Users\Teddy\Source\Repos\CSC440_Alarm\Student_Alarm_Clock\Student_Alarm_Clock\bin\EntityFramework.dll
+C:\Users\Teddy\Source\Repos\CSC440_Alarm\Student_Alarm_Clock\Student_Alarm_Clock\bin\EntityFramework.SqlServer.dll
+C:\Users\Teddy\Source\Repos\CSC440_Alarm\Student_Alarm_Clock\Student_Alarm_Clock\bin\EntityFramework.xml
+C:\Users\Teddy\Source\Repos\CSC440_Alarm\Student_Alarm_Clock\Student_Alarm_Clock\bin\EntityFramework.SqlServer.xml

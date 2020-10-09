@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AlarmsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="alarm_list">
+    <Key>
+      <PropertyRef Name="alarmID" />
+    </Key>
+    <Property Name="alarmID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="userID" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+    <Property Name="wakeTime" Type="Time" Precision="7" />
+    <Property Name="yellowTime" Type="Time" Precision="7" />
+    <Property Name="redTime" Type="Time" Precision="7" />
+  </EntityType>
+  <EntityType Name="alarm_log">
+    <Key>
+      <PropertyRef Name="indexID" />
+    </Key>
+    <Property Name="indexID" Type="Int32" Nullable="false" />
+    <Property Name="alarmID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Name="yellowStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="redStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="alarmUsed" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="logTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="user_list">
+    <Key>
+      <PropertyRef Name="userID" />
+    </Key>
+    <Property Name="userID" Type="String" MaxLength="18" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="sleepStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="sleepCritical" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="wakeTime" Type="Time" Precision="7" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="AlarmsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="alarm_list" EntityType="Self.alarm_list" />
+    <EntitySet Name="alarm_log" EntityType="Self.alarm_log" />
+    <EntitySet Name="user_list" EntityType="Self.user_list" />
+  </EntityContainer>
+</Schema>
