@@ -163,9 +163,7 @@ $(document).ready(function () {
     }
     $("#createAlarmTest").click(function(){
        // window.location = window.location.href + "AddAlarmList";
-        $.post("addAlarm", function () {
-            console.log("yeet");
-        });
+        $.post("/Home/addAlarm", { alarmName: "John", alarmDateTime: "2pm"});
     });
     //When the "set alarm" button is clicked we take the info off the page and set up an alarm with it.
     $('#createAlarm').click(function () {
@@ -206,6 +204,10 @@ $(document).ready(function () {
             + date.toLocaleDateString() + "</span></td>" + "<td> <button class=\"btn btn-primary updateAlarm\" id=\"update" + id + "\">Update</button></td>"
             + "<td> <button class=\"btn btn-danger deleteAlarm\" id=\"delete" + id + "\">Delete</button></td></tr>");
         id++;
+        $.post("/Home/addAlarm", {
+            alarmDateTime: date.toLocaleDateString() + " " + date.toLocaleTimeString(),
+            alarmName: alarmName
+        });
     });
     //let's make some alarm objects so we can track if it's triggered and it's alarm id.
     class Alarm {

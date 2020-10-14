@@ -18,6 +18,11 @@ namespace Student_Alarm_Clock
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+                name: "AddAlarm",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "addAlarm", id = UrlParameter.Optional }
+            );
         }
     }
 }

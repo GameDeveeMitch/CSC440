@@ -14,62 +14,49 @@ namespace Student_Alarm_Clock.Controllers
     {
         public ActionResult Index()
         {
-            //this code will automatcially submit an entry into the database. We need to figure out how to connect this to the front end.
-            //try
-            //{
-            //    using (var db = new AlarmsEntities())
-            //    {
-            //        TimeSpan today = new TimeSpan();
-            //        var alarmList = new alarm_list();
-            //        alarmList.userID = "0";
-            //        alarmList.wakeTime = today;
-            //        alarmList.yellowTime = today;
-            //        alarmList.redTime = today;
-
-            //        db.alarm_list.Add(alarmList);
-            //        db.SaveChanges();
-            //    }
-            //    return View();
-            //}
-            //catch(DbEntityValidationException e)
-            //{
-            //    // Retrieve the error messages as a list of strings.
-            //    var errorMessages = e.EntityValidationErrors
-            //            .SelectMany(x => x.ValidationErrors)
-            //            .Select(x => x.ErrorMessage);
-
-            //    // Join the list to a single string.
-            //    var fullErrorMessage = string.Join("; ", errorMessages);
-
-            //    // Combine the original exception message with the new one.
-            //    var exceptionMessage = string.Concat(e.Message, " The validation errors are: ", fullErrorMessage);
-
-            //    // Throw a new DbEntityValidationException with the improved exception message.
-            //    throw new DbEntityValidationException(exceptionMessage, e.EntityValidationErrors);
-            //    Console.WriteLine(e);
-            //    Debug.WriteLine(e);
-            //    return View();
-            //}
             return View();
         }
         [HttpPost]
-        [Route("/addAlarm")]
-        public ActionResult AddAlarmList()
+        [ActionName("addAlarm")]
+        public ActionResult AddAlarmList(AlarmInput list)
         {
-            using(var db = new AlarmsEntities())
+            DateTime time = DateTime.Parse(list.alarmDateTime);
+            Console.WriteLine("Yeet " + list.alarmDateTime);
+            try
             {
-                TimeSpan today = new TimeSpan();
-                var alarmList = new alarm_list();
-                alarmList.userID = "0";
-                alarmList.wakeTime = today;
-                alarmList.yellowTime = today;
-                alarmList.redTime = today;
+                using (var db = new AlarmsEntities())
+                {
+                    TimeSpan today = new TimeSpan();
+                    var alarmList = new alarm_list();
+                    alarmList.userID = "0";
+                    alarmList.wakeTime = time.TimeOfDay;
+                    alarmList.yellowTime = time.TimeOfDay;
+                    alarmList.redTime = time.TimeOfDay;
 
-                db.alarm_list.Add(alarmList);
-                db.SaveChanges();
+                    db.alarm_list.Add(alarmList);
+                    db.SaveChanges();
+                }
+                return View("Index");
             }
+            catch (DbEntityValidationException e)
+            {
+                // Retrieve the error messages as a list of strings.
+                var errorMessages = e.EntityValidationErrors
+                        .SelectMany(x => x.ValidationErrors)
+                        .Select(x => x.ErrorMessage);
 
-                return Index();
+                // Join the list to a single string.
+                var fullErrorMessage = string.Join("; ", errorMessages);
+
+                // Combine the original exception message with the new one.
+                var exceptionMessage = string.Concat(e.Message, " The validation errors are: ", fullErrorMessage);
+
+                // Throw a new DbEntityValidationException with the improved exception message.
+                throw new DbEntityValidationException(exceptionMessage, e.EntityValidationErrors);
+                Console.WriteLine(e);
+                Debug.WriteLine(e);
+                return View("Index");
+            }
         }
 
         public ActionResult About()

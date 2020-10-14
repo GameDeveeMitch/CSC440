@@ -15,31 +15,8 @@
           <Property Name="yellowTime" Type="time" Precision="7" />
           <Property Name="redTime" Type="time" Precision="7" />
         </EntityType>
-        <EntityType Name="alarm_log">
-          <Key>
-            <PropertyRef Name="indexID" />
-          </Key>
-          <Property Name="indexID" Type="int" Nullable="false" />
-          <Property Name="alarmID" Type="varchar" MaxLength="6" />
-          <Property Name="yellowStatus" Type="varchar" MaxLength="1" />
-          <Property Name="redStatus" Type="varchar" MaxLength="1" />
-          <Property Name="alarmUsed" Type="varchar" MaxLength="1" />
-          <Property Name="logTime" Type="datetime" />
-        </EntityType>
-        <EntityType Name="user_list">
-          <Key>
-            <PropertyRef Name="userID" />
-          </Key>
-          <Property Name="userID" Type="varchar" MaxLength="18" Nullable="false" />
-          <Property Name="sleepStatus" Type="varchar" MaxLength="1" />
-          <Property Name="sleepCritical" Type="varchar" MaxLength="1" />
-          <Property Name="wakeTime" Type="time" Precision="7" />
-          <Property Name="password" Type="varchar" MaxLength="50" />
-        </EntityType>
         <EntityContainer Name="AlarmsModelStoreContainer">
           <EntitySet Name="alarm_list" EntityType="Self.alarm_list" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="alarm_log" EntityType="Self.alarm_log" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="user_list" EntityType="Self.user_list" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -56,31 +33,8 @@
           <Property Name="yellowTime" Type="Time" Precision="7" />
           <Property Name="redTime" Type="Time" Precision="7" />
         </EntityType>
-        <EntityType Name="alarm_log">
-          <Key>
-            <PropertyRef Name="indexID" />
-          </Key>
-          <Property Name="indexID" Type="Int32" Nullable="false" />
-          <Property Name="alarmID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="yellowStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="redStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="alarmUsed" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="logTime" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="user_list">
-          <Key>
-            <PropertyRef Name="userID" />
-          </Key>
-          <Property Name="userID" Type="String" MaxLength="18" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="sleepStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="sleepCritical" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="wakeTime" Type="Time" Precision="7" />
-          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityContainer Name="AlarmsEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="alarm_list" EntityType="Self.alarm_list" />
-          <EntitySet Name="alarm_log" EntityType="Self.alarm_log" />
-          <EntitySet Name="user_list" EntityType="Self.user_list" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -96,29 +50,6 @@
                 <ScalarProperty Name="wakeTime" ColumnName="wakeTime" />
                 <ScalarProperty Name="yellowTime" ColumnName="yellowTime" />
                 <ScalarProperty Name="redTime" ColumnName="redTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="alarm_log">
-            <EntityTypeMapping TypeName="AlarmsModel.alarm_log">
-              <MappingFragment StoreEntitySet="alarm_log">
-                <ScalarProperty Name="indexID" ColumnName="indexID" />
-                <ScalarProperty Name="alarmID" ColumnName="alarmID" />
-                <ScalarProperty Name="yellowStatus" ColumnName="yellowStatus" />
-                <ScalarProperty Name="redStatus" ColumnName="redStatus" />
-                <ScalarProperty Name="alarmUsed" ColumnName="alarmUsed" />
-                <ScalarProperty Name="logTime" ColumnName="logTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="user_list">
-            <EntityTypeMapping TypeName="AlarmsModel.user_list">
-              <MappingFragment StoreEntitySet="user_list">
-                <ScalarProperty Name="userID" ColumnName="userID" />
-                <ScalarProperty Name="sleepStatus" ColumnName="sleepStatus" />
-                <ScalarProperty Name="sleepCritical" ColumnName="sleepCritical" />
-                <ScalarProperty Name="wakeTime" ColumnName="wakeTime" />
-                <ScalarProperty Name="password" ColumnName="password" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
