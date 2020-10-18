@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Student_Alarm_Clock.Model.CreateAlarmModel
+@{
     ViewBag.Title = "Home Page";
 }
 <script type="text/javascript" src="~/Scripts/Custom/alarmClock.js"></script>
@@ -8,23 +9,67 @@
     <p class="lead">The BEST alarm clock</p>
 </div>
 
+<div>
+    <div class="col-sm-12">
+        <p id="time">Time</p>
+    </div>
+</div>
+<div>
+    <div class="col-sm-12">
+        <p id="date">Date</p>
+    </div>
+</div>
 <div class="row">
-    <p id="date">Date</p>
-    <p id="time">Time</p>
-    <label for="hour">Hour</label>
-    <input id="hour" type="number" max="12" min="0" />
-    <label for="minute">Minute</label>
-    <input id="minute" type="number" max="60" min="0" />
-    <label for="second">Second</label>
-    <input id="second" type="number" max="60" min="0" />
-    <label for="amPm">AM/PM</label>
-    <select id="amPm">
-        <option value="AM">AM</option>
-        <option value="PM">PM</option>
-    </select>
+    <div class="col-sm-6">
+        <label for="alarmName">Alarm Name</label>
+        <input id="alarmName" type="text" />
 
-    <br />
-    <br />
+        <br />
+        <br />
+        <label for="time">Time</label>
+        <input id="alarmTime" type="time" step="1" />
 
-    <button type="button" class="btn btn-primary" id="createAlarm">Set Alarm</button>
+        <br />
+        <br />
+        @*<div class="">
+            <h4> Select Days for Alarm</h4>
+            @foreach (var item in Model.CheckBoxItems)
+            {
+                <input id="chk@(item.Value)"
+                       type="checkbox"
+                       value="@item.Value"
+                       name="boxGroup1"
+                       checked="@item.IsChecked" />
+                @item.Name <br />
+            }
+        </div>*@
+    <div>
+        <h4> Select Days for Alarm</h4>
+        <input type="checkbox" name="boxGroup1" value="1" checked> Monday <br />
+        <input type="checkbox" name="boxGroup1" value="2"> Tuesday <br />
+        <input type="checkbox" name="boxGroup1" value="3"> Wednesday <br />
+        <input type="checkbox" name="boxGroup1" value="4"> Thursday <br />
+        <input type="checkbox" name="boxGroup1" value="5"> Friday <br />
+        <input type="checkbox" name="boxGroup1" value="6"> Saturday <br />
+        <input type="checkbox" name="boxGroup1" value="7"> Sunday <br />
+    </div>
+
+        <br />
+        <br />
+        <button type="button" class="btn btn-primary" id="createAlarm">Set Alarm</button>
+    </div>
+    <div class="col-sm-6">
+        <table class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th>Alarm Name</th>
+                    <th>Alarm Time</th>
+                    <th>Update Alarm</th>
+                    <th>Delete Alarm</th>
+                </tr>
+            </thead>
+            <tbody id="alarms">
+            </tbody>
+        </table>
+    </div>
 </div>

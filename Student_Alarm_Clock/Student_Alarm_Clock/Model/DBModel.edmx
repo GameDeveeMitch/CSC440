@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AlarmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="alarm_list">
+          <Key>
+            <PropertyRef Name="alarmID" />
+          </Key>
+          <Property Name="alarmID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userID" Type="varchar" MaxLength="18" />
+          <Property Name="wakeTime" Type="time" Precision="7" />
+          <Property Name="yellowTime" Type="time" Precision="7" />
+          <Property Name="redTime" Type="time" Precision="7" />
+        </EntityType>
+        <EntityContainer Name="AlarmsModelStoreContainer">
+          <EntitySet Name="alarm_list" EntityType="Self.alarm_list" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AlarmsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="alarm_list">
+          <Key>
+            <PropertyRef Name="alarmID" />
+          </Key>
+          <Property Name="alarmID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userID" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="wakeTime" Type="Time" Precision="7" />
+          <Property Name="yellowTime" Type="Time" Precision="7" />
+          <Property Name="redTime" Type="Time" Precision="7" />
+        </EntityType>
+        <EntityContainer Name="AlarmsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="alarm_list" EntityType="Self.alarm_list" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AlarmsModelStoreContainer" CdmEntityContainer="AlarmsEntities">
+          <EntitySetMapping Name="alarm_list">
+            <EntityTypeMapping TypeName="AlarmsModel.alarm_list">
+              <MappingFragment StoreEntitySet="alarm_list">
+                <ScalarProperty Name="alarmID" ColumnName="alarmID" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="wakeTime" ColumnName="wakeTime" />
+                <ScalarProperty Name="yellowTime" ColumnName="yellowTime" />
+                <ScalarProperty Name="redTime" ColumnName="redTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
