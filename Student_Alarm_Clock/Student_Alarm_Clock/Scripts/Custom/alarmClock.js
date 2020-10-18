@@ -63,6 +63,50 @@ $(document).ready(function () {
                 alarms[i].isTriggered = false;
                 changeButtonState(this, "btn-danger", "deleteAlarm", "btn-success", "dismissAlarm", "Delete");
                 $("#update" + alarms[i].alarmId).prop("disabled", false);
+
+                var date = new Date();
+
+                var dateOurTime = new Date();
+
+                dateOurTime.setHours(alarms[i].alarmDateTime.getHours());
+                dateOurTime.setMinutes(alarms[i].alarmDateTime.getMinutes());
+                dateOurTime.setSeconds(alarms[i].alarmDateTime.getSeconds());
+
+                var day = date.getDay();
+
+                var closestDay = 0;
+
+                var nextAlarmDate = 0;
+
+                for (var j = 0; j < alarms[i].alarmDays.length; j++) {
+                    var alarmDayInt = parseInt(alarms[i].alarmDays[j]);
+                    if (alarmDayInt < day) {
+                        closestDay = alarmDayInt;
+                    }
+                    else if (alarmDayInt == day && dateOurTime > date) {
+                        closestDay = alarmDayInt;
+                        nextAlarmDate = (alarmDayInt - day);
+                        break;
+                    }
+                    else if (alarmDayInt > day) {
+                        closestDay = alarmDayInt;
+                        nextAlarmDate = (alarmDayInt - day);
+                        break;
+                    }
+                }
+
+                if (closestDay < day) {
+                    nextAlarmDate = (parseInt(alarms[i].alarmDays[0]) + 7 - day);
+                }
+
+                date.setHours(alarms[i].alarmDateTime.getHours());
+                date.setMinutes(alarms[i].alarmDateTime.getMinutes());
+                date.setSeconds(alarms[i].alarmDateTime.getSeconds());
+
+                date.setDate(date.getDate() + nextAlarmDate);
+                alarms[i].alarmDateTime = date;
+                $("#alarmTime" + this.id.substring(6)).html(alarms[i].alarmDateTime.toLocaleTimeString()
+                    + " on " + alarms[i].alarmDateTime.toLocaleDateString());
                 break;
             }
         }
@@ -76,10 +120,15 @@ $(document).ready(function () {
             if (alarms[i].alarmId == this.id.substring(6)) {
                 //setting up the inputs for updating data.
                 $("#alarmName" + this.id.substring(6)).html("Name :<input id=\"newAlarmName" + alarms[i].alarmId + "\" type=\"text\" value=\"" + alarms[i].alarmName + "\">");
-                $("#alarmTime" + this.id.substring(6)).html("Time :<input id=\"newAlarmTime" + alarms[i].alarmId + "\" type=\"time\" step=\"1\" value=\"" + alarms[i].alarmDateTime.getHours() +
-                    ":" + alarms[i].alarmDateTime.getMinutes() + ":" + alarms[i].alarmDateTime.getSeconds() + "\"><br/>"
-                    + "Date :<input id=\"newAlarmDate" + alarms[i].alarmId + "\" type=\"date\" value=\"" + alarms[i].alarmDateTime.getFullYear() + "-" + (alarms[i].alarmDateTime.getMonth() + 1) + "-"
-                    + alarms[i].alarmDateTime.getDate() + "\">");
+                $("#alarmTime" + this.id.substring(6)).html("Time :<input id=\"newAlarmTime" + alarms[i].alarmId + "\" type=\"time\" step=\"1\" value=\"" + giveSingleDigitTwoDigits(alarms[i].alarmDateTime.getHours()) +
+                    ":" + giveSingleDigitTwoDigits(alarms[i].alarmDateTime.getMinutes()) + ":" + giveSingleDigitTwoDigits(alarms[i].alarmDateTime.getSeconds()) + "\"><br/>"
+                    + "Days :<br/>" + "<input type=\"checkbox\" id=\"monday" + alarms[i].alarmId + "\" name=\"editBoxGroup" + alarms[i].alarmId + "\" value=\"1\"" + (alarms[i].alarmDays.includes("1") ? "checked" : "") + "> Mon <br/>"
+                    + "<input type=\"checkbox\" id=\"tuesday" + alarms[i].alarmId + "\" name=\"editBoxGroup" + alarms[i].alarmId + "\" value=\"2\"" + (alarms[i].alarmDays.includes("2") ? "checked" : "") + "> Tue <br/>"
+                    + "<input type=\"checkbox\" id=\"wednesday" + alarms[i].alarmId + "\" name=\"editBoxGroup" + alarms[i].alarmId + "\" value=\"3\"" + (alarms[i].alarmDays.includes("3") ? "checked" : "") + "> Wed <br/>"
+                    + "<input type=\"checkbox\" id=\"thursday" + alarms[i].alarmId + "\" name=\"editBoxGroup" + alarms[i].alarmId + "\" value=\"4\"" + (alarms[i].alarmDays.includes("4") ? "checked" : "") + "> Thu <br/>"
+                    + "<input type=\"checkbox\" id=\"friday" + alarms[i].alarmId + "\" name=\"editBoxGroup" + alarms[i].alarmId + "\" value=\"5\"" + (alarms[i].alarmDays.includes("5") ? "checked" : "") + "> Fri <br/>"
+                    + "<input type=\"checkbox\" id=\"saturday" + alarms[i].alarmId + "\" name=\"editBoxGroup" + alarms[i].alarmId + "\" value=\"6\"" + (alarms[i].alarmDays.includes("6") ? "checked" : "") + "> Sat <br/>"
+                    + "<input type=\"checkbox\" id=\"sunday" + alarms[i].alarmId + "\" name=\"editBoxGroup" + alarms[i].alarmId + "\" value=\"7\"" + (alarms[i].alarmDays.includes("7") ? "checked" : "") + "> Sun <br/>");
                 //Changing the delete and update buttons to better suit updating
                 changeButtonState(this, "btn-success", "confirmUpdate", "btn-primary", "updateAlarm", "Confirm");
                 changeButtonState(("#delete" + alarms[i].alarmId), "btn-primary", "cancelUpdate", "btn-danger", "deleteAlarm", "Cancel");
@@ -114,24 +163,56 @@ $(document).ready(function () {
                 var minutes = parseInt(time.substring(3, 5));
                 var seconds = parseInt(time.substring(6, 8));
 
-                var date = $("#newAlarmDate" + alarms[i].alarmId).val();
+                var daysChecked = [];
+                $('input[name=editBoxGroup' + alarms[i].alarmId +']').each(function () {
+                    var thisVal = (this.checked ? $(this).val() : "0");
+                    if (thisVal !== "0") {
+                        daysChecked.push(thisVal);
+                    }
+                });
+                var date = new Date();
 
-                if (date == "") {
-                    date = new Date();
+                var dateOurTime = new Date();
+
+                dateOurTime.setHours(hours);
+                dateOurTime.setMinutes(minutes);
+                dateOurTime.setSeconds(seconds);
+
+                var day = date.getDay();
+
+                var closestDay = 1;
+
+                var nextAlarmDate = 0;
+
+                for (var j = 0; j < daysChecked.length; j++) {
+                    var alarmDayInt = parseInt(daysChecked[j]);
+                    if (alarmDayInt < day) {
+                        closestDay = alarmDayInt;
+                    }
+                    else if (alarmDayInt == day && dateOurTime > date) {
+                        closestDay = alarmDayInt;
+                        nextAlarmDate = (alarmDayInt - day);
+                        break;
+                    }
+                    else if (alarmDayInt > day) {
+                        closestDay = alarmDayInt;
+                        nextAlarmDate = (alarmDayInt - day);
+                        break;
+                    }
                 }
-                else {
-                    //parsing ints here because they're strings currently.
-                    var year = parseInt(date.substring(0, 4));
-                    var month = parseInt(date.substring(5, 7));
-                    var day = parseInt(date.substring(8, 10));
 
-                    date = new Date(year, (month - 1), day, 0, 0, 0, 0);
+                if (closestDay < day) {
+                    nextAlarmDate = (parseInt(daysChecked[0]) + 7 - day);
                 }
 
+                date.setDate(date.getDate() + nextAlarmDate);
+
+                //passing in the time to the date
                 date.setHours(hours);
                 date.setMinutes(minutes);
                 date.setSeconds(seconds);
                 alarms[i].alarmDateTime = date;
+                alarms[i].alarmDays = daysChecked;
 
                 $("#alarmName" + this.id.substring(6)).html(alarms[i].alarmName);
                 $("#alarmTime" + this.id.substring(6)).html(alarms[i].alarmDateTime.toLocaleTimeString()
@@ -161,10 +242,14 @@ $(document).ready(function () {
         $(buttonSelector).removeClass(removedButtonSelectorClass);
         $(buttonSelector).text(buttonText);
     }
-    $("#createAlarmTest").click(function(){
-       // window.location = window.location.href + "AddAlarmList";
-        $.post("/Home/addAlarm", { alarmName: "John", alarmDateTime: "2pm"});
-    });
+    function giveSingleDigitTwoDigits(number) {
+        if (number < 10) {
+            return "0" + number;
+        }
+        else {
+            return number;
+        }
+    }
     //When the "set alarm" button is clicked we take the info off the page and set up an alarm with it.
     $('#createAlarm').click(function () {
         //most imput values come back as strings unless it's labed as a number
@@ -178,24 +263,53 @@ $(document).ready(function () {
             seconds = 0;
         }
 
-        var date = $("#alarmDate").val();
+        var daysChecked = [];
+        $('input[name=boxGroup1]').each(function () {
+            var thisVal = (this.checked ? $(this).val() : "0");
+            if (thisVal !== "0") {
+                daysChecked.push(thisVal);
+            }
+        });
+        var date = new Date();
 
-        if (date == "") {
-            date = new Date();
-        }
-        else {
-            //parsing ints here because they're strings currently.
-            var year = parseInt(date.substring(0, 4));
-            var month = parseInt(date.substring(5, 7));
-            var day = parseInt(date.substring(8, 10));
+        var dateOurTime = new Date();
 
-            date = new Date(year, (month - 1), day, 0, 0, 0, 0);
+        dateOurTime.setHours(hours);
+        dateOurTime.setMinutes(minutes);
+        dateOurTime.setSeconds(seconds);
+
+        var day = date.getDay();
+
+        var closestDay = 1;
+
+        var nextAlarmDate = 0;
+
+        for (var i = 0; i < daysChecked.length; i++) {
+            var alarmDayInt = parseInt(daysChecked[i]);
+            if (alarmDayInt < day) {
+                closestDay = alarmDayInt;
+            }
+            else if (alarmDayInt == day && dateOurTime > date) {
+                closestDay = alarmDayInt;
+                nextAlarmDate = (alarmDayInt - day);
+                break;
+            }
+            else if (alarmDayInt > day) {
+                closestDay = alarmDayInt;
+                nextAlarmDate = (alarmDayInt - day);
+                break;
+            }
         }
+        if (closestDay < day) {
+            nextAlarmDate = (parseInt(daysChecked[0]) + 7 - day); 
+        }
+        date.setDate(date.getDate() + nextAlarmDate);
+
         //passing in the time to the date
         date.setHours(hours);
         date.setMinutes(minutes);
         date.setSeconds(seconds);
-        var newAlarm = new Alarm(date, false, id, alarmName);
+        var newAlarm = new Alarm(date, false, id, alarmName, daysChecked);
         alarms.push(newAlarm);
         console.log(alarms);
 
@@ -211,11 +325,12 @@ $(document).ready(function () {
     });
     //let's make some alarm objects so we can track if it's triggered and it's alarm id.
     class Alarm {
-        constructor(alarmDateTime, isTriggered, alarmId, alarmName) {
+        constructor(alarmDateTime, isTriggered, alarmId, alarmName, alarmDays) {
             this.alarmDateTime = alarmDateTime;
             this.isTriggered = isTriggered;
             this.alarmId = alarmId;
             this.alarmName = alarmName;
+            this.alarmDays = alarmDays;
         }
     }
 });

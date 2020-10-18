@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Student_Alarm_Clock.Model.CreateAlarmModel
+@{
     ViewBag.Title = "Home Page";
 }
 <script type="text/javascript" src="~/Scripts/Custom/alarmClock.js"></script>
@@ -30,8 +31,28 @@
 
         <br />
         <br />
-        <label for="Date">Date</label>
-        <input id="alarmDate" type="date" />
+        @*<div class="">
+            <h4> Select Days for Alarm</h4>
+            @foreach (var item in Model.CheckBoxItems)
+            {
+                <input id="chk@(item.Value)"
+                       type="checkbox"
+                       value="@item.Value"
+                       name="boxGroup1"
+                       checked="@item.IsChecked" />
+                @item.Name <br />
+            }
+        </div>*@
+    <div>
+        <h4> Select Days for Alarm</h4>
+        <input type="checkbox" name="boxGroup1" value="1" checked> Monday <br />
+        <input type="checkbox" name="boxGroup1" value="2"> Tuesday <br />
+        <input type="checkbox" name="boxGroup1" value="3"> Wednesday <br />
+        <input type="checkbox" name="boxGroup1" value="4"> Thursday <br />
+        <input type="checkbox" name="boxGroup1" value="5"> Friday <br />
+        <input type="checkbox" name="boxGroup1" value="6"> Saturday <br />
+        <input type="checkbox" name="boxGroup1" value="7"> Sunday <br />
+    </div>
 
         <br />
         <br />
