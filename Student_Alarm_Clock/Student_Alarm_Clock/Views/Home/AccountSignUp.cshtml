@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "AccountSignUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function formValidation() {
+        //validate inputs for being unique
+
+        //validate inputs for being valid
+        let validated = true;
+
+        let firstName = document.getElementById('<%= newUser.ClientID %>').value;
+        let lastName = document.getElementById('<%= newUser.ClientID %>').value;
+        let userName = document.getElementById('<%= newUser.ClientID %>').value;
+        let userPass1 = document.getElementById('<%= newPass.ClientID %>').value;
+        let userPass2 = document.getElementById('<%= newPass.ClientID %>').value;
+
+        if (userName != undefined) {
+            if (userName.length < 8) {
+                validated = false;
+                alert("Username is less than 8 characters");
+                return validated
+            }
+        }
+
+        if (firstName != undefined) {
+            if (firstName.length < 2) {
+                alert("First Name is less than 2 characters");
+                validated = false;
+                return validated
+            }
+        }
+
+        if (lastName != undefined) {
+            if (lastName.length < 2) {
+                alert("First Name is less than 2 characters");
+                validated = false;
+                return validated
+            }
+        }
+
+        if (userPass1 = userPass2) {
+            //accept
+        } else {
+            //get his ass
+            alert("Password does not match");
+            validated = false;
+            return validated
+        }
+    }
+</script>
+
+<br/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>
+                Sign up for our alarm clock application!
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <br />
+        </div>
+    </div>
+</div>
+
+<div class="form-container">
+    <form name="registerForm">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="firstName">First Name</label>
+                </div>
+
+                <div class="col-sm-3">
+                    <input type="text" id="ClientID" name="firstName" placeholder="John" required />
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="lastName">Last Name</label>
+                </div>
+
+                <div class="col-sm-3">
+                    <input type="text" id="ClientID" placeholder="Doe" required />
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="userName">Enter Username</label>
+                </div>
+
+                <div class="col-sm-3">
+                    <input type="text" id="ClientID" name="ClientID" placeholder="" required />
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="userPass1">Password</label>
+                </div>
+
+                <div class="col-sm-3">
+                    <input type="text" id="userPass1" placeholder="" required />
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="userPass2">Retype Password</label>
+                </div>
+
+                <div class="col-sm-3">
+                    <input type="text" id="userPass2" placeholder="" required />
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <input class="button" type="submit" value="Submit" name="submit" onClick="formValidation()" />
+                </div>
+                <div class="col-sm-3">
+                    All fields are required.
+                </div>
+            </div>
+    </form>
+</div>

@@ -112,7 +112,28 @@ namespace Student_Alarm_Clock.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Our contact page.";
+
+            return View();
+        }
+
+        public ActionResult Account()
+        {
+            ViewBag.Message = "Account Information";
+
+            return View();
+        }
+
+        public ActionResult AccountLogin()
+        {
+            ViewBag.Message = "Account Sign In";
+
+            return View();
+        }
+
+        public ActionResult AccountSignUp()
+        {
+            ViewBag.Message = "Account Sign Up";
 
             return View();
         }
