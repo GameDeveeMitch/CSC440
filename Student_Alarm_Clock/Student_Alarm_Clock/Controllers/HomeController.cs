@@ -14,24 +14,43 @@ namespace Student_Alarm_Clock.Controllers
     {
         public ActionResult Index()
         {
-            //Creating object of CheckBoxList model class
-            CreateAlarmModel ChkItems = new CreateAlarmModel();
-
-            //Additng items to the list
-            List<CreateAlarmModel> ChkItem = new List<CreateAlarmModel>()
+            DateTime time = DateTime.Now;
+            try
             {
-              new CreateAlarmModel {Value=1,Name="Monday",IsChecked=true },
-              new CreateAlarmModel {Value=2,Name="Tuesday",IsChecked=false },
-              new CreateAlarmModel {Value=3,Name="Wednesday",IsChecked=false },
-              new CreateAlarmModel {Value=4,Name="Thursday" ,IsChecked=false},
-              new CreateAlarmModel {Value=5,Name="Friday",IsChecked=false },
-              new CreateAlarmModel {Value=6,Name="Saturday" ,IsChecked=false},
-              new CreateAlarmModel {Value=7,Name="Sunday" ,IsChecked=false}
-            };
-            //assigning records to the CheckBoxItems list 
-            ChkItems.CheckBoxItems = ChkItem;
+                //var yeet = new List<alarm_list>();
+                //using (var db = new AlarmsEntities())
+                //{
+                //    yeet = db.alarm_list.ToList();
+                //    foreach(var thing in yeet)
+                //    {
+                //        Console.WriteLine(thing.alarmID);
+                //        Debug.WriteLine(thing.alarmID);
+                //    }
+                //}
+                //return View(yeet);
+                return View();
+            }
+            catch (DbEntityValidationException e)
+            {
+                // Retrieve the error messages as a list of strings.
+                var errorMessages = e.EntityValidationErrors
+                        .SelectMany(x => x.ValidationErrors)
+                        .Select(x => x.ErrorMessage);
 
-            return View(ChkItems);
+                // Join the list to a single string.
+                var fullErrorMessage = string.Join("; ", errorMessages);
+
+                // Combine the original exception message with the new one.
+                var exceptionMessage = string.Concat(e.Message, " The validation errors are: ", fullErrorMessage);
+
+                // Throw a new DbEntityValidationException with the improved exception message.
+                throw new DbEntityValidationException(exceptionMessage, e.EntityValidationErrors);
+                Console.WriteLine(e);
+                Debug.WriteLine(e);
+                return View("Index");
+            }
+
+            return View();
         }
         public ActionResult CreateAlarm()
         {

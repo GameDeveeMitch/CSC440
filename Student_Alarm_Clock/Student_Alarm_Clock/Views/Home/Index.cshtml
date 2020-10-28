@@ -1,4 +1,4 @@
-﻿@model Student_Alarm_Clock.Model.CreateAlarmModel
+﻿@model IEnumerable<Student_Alarm_Clock.Model.alarm_list>
 @{
     ViewBag.Title = "Home Page";
 }
@@ -26,7 +26,7 @@
 
         <br />
         <br />
-        <label for="time">Time</label>
+        <label for="alarmTime">Time</label>
         <input id="alarmTime" type="time" step="1" />
 
         <br />
@@ -43,25 +43,45 @@
                 @item.Name <br />
             }
         </div>*@
-    <div>
-        <h4> Select Days for Alarm</h4>
-        <input type="checkbox" name="boxGroup1" value="1" checked> Monday <br />
-        <input type="checkbox" name="boxGroup1" value="2"> Tuesday <br />
-        <input type="checkbox" name="boxGroup1" value="3"> Wednesday <br />
-        <input type="checkbox" name="boxGroup1" value="4"> Thursday <br />
-        <input type="checkbox" name="boxGroup1" value="5"> Friday <br />
-        <input type="checkbox" name="boxGroup1" value="6"> Saturday <br />
-        <input type="checkbox" name="boxGroup1" value="7"> Sunday <br />
-    </div>
+        <div>
+            <h4> Select Days for Alarm</h4>
+            <input type="checkbox" name="boxGroup1" value="1" checked> Monday <br />
+            <input type="checkbox" name="boxGroup1" value="2"> Tuesday <br />
+            <input type="checkbox" name="boxGroup1" value="3"> Wednesday <br />
+            <input type="checkbox" name="boxGroup1" value="4"> Thursday <br />
+            <input type="checkbox" name="boxGroup1" value="5"> Friday <br />
+            <input type="checkbox" name="boxGroup1" value="6"> Saturday <br />
+            <input type="checkbox" name="boxGroup1" value="7"> Sunday <br />
+        </div>
 
         <br />
         <br />
         <button type="button" class="btn btn-primary" id="createAlarm">Set Alarm</button>
+        <br />
+        <br />
+        <label for="yellowAlarmTime">Yellow Alarm Time</label>
+        Hours<input id="yellowAlarmTimeHours" type="text"/>
+        <br />
+        Minutes<input id="yellowAlarmTimeMinutes" type="text"/>
+        <br />
+        Seconds<input id="yellowAlarmTimeSeconds" type="text"/>
+        <br />
+       <label for="redAlarmTime">Red Alarm Time</label>
+        Hours<input id="redAlarmTimeHours" type="text"/>
+        <br />
+        Minutes<input id="redAlarmTimeMinutes" type="text"/>
+        <br />
+        Seconds<input id="redAlarmTimeSeconds" type="text"/>
+        <br />
+        <button type="button" class="btn btn-primary" id="submitAlarmTimes">Submit Alarm Times</button>
+        <br />
+        <button type="button" class="btn btn-primary" id="goingToSleep">Going To Sleep</button>
     </div>
     <div class="col-sm-6">
         <table class="table" id="myTable">
             <thead>
                 <tr>
+                    <th>Enabled</th>
                     <th>Alarm Name</th>
                     <th>Alarm Time</th>
                     <th>Update Alarm</th>
@@ -69,6 +89,12 @@
                 </tr>
             </thead>
             <tbody id="alarms">
+                @*@foreach(var list in Model)
+                {
+                <tr>
+                    <td>@list.alarmID</td>
+                </tr>
+                }*@
             </tbody>
         </table>
     </div>
