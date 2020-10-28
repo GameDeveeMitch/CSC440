@@ -40,42 +40,45 @@ $(document).ready(function () {
         //if we got some alarms, lets see if they should go off!
         if (alarms.length > 0) {
             for (var i = 0; i < alarms.length; i++) {
-                var yellowAlarmDateTime = new Date(alarms[i].alarmDateTime.getFullYear(), alarms[i].alarmDateTime.getMonth(), alarms[i].alarmDateTime.getDate(),
-                    alarms[i].alarmDateTime.getHours(), alarms[i].alarmDateTime.getMinutes(), alarms[i].alarmDateTime.getSeconds(), 0);
-                yellowAlarmDateTime.setHours(alarms[i].alarmDateTime.getHours() - user.yellowAlarmTime.getHours());
-                yellowAlarmDateTime.setMinutes(alarms[i].alarmDateTime.getMinutes() - user.yellowAlarmTime.getMinutes());
-                yellowAlarmDateTime.setSeconds(alarms[i].alarmDateTime.getSeconds() - user.yellowAlarmTime.getSeconds());
-                var redAlarmDateTime = new Date(alarms[i].alarmDateTime.getFullYear(), alarms[i].alarmDateTime.getMonth(), alarms[i].alarmDateTime.getDate(),
-                    alarms[i].alarmDateTime.getHours(), alarms[i].alarmDateTime.getMinutes(), alarms[i].alarmDateTime.getSeconds(), 0);
-                redAlarmDateTime.setHours(alarms[i].alarmDateTime.getHours() - user.redAlarmTime.getHours());
-                redAlarmDateTime.setMinutes(alarms[i].alarmDateTime.getMinutes() - user.redAlarmTime.getMinutes());
-                redAlarmDateTime.setSeconds(alarms[i].alarmDateTime.getSeconds() - user.redAlarmTime.getSeconds());
-                console.log(yellowAlarmDateTime.toLocaleTimeString());
-                console.log(redAlarmDateTime.toLocaleTimeString());
-                if (yellowAlarmDateTime.toLocaleTimeString() === now.toLocaleTimeString()) {
-                    console.log("yellow alarm Time!");
-                }
-                if (redAlarmDateTime.toLocaleTimeString() === now.toLocaleTimeString()) {
-                    console.log("red alarm Time!");
-                }
-                if (alarms[i].isTriggered) {
-                    //we need to grab the table row so we can make it flash red.
-                    //we do that here becuase we need to get this specific alarm's row.
-                    var tableRow = $("#delete" + alarms[i].alarmId).parent().parent();
-                    //this is the function that flashes the rows. It has a setTimeout which is kinda like a sleep.
-                    //because of this sleep, we have to do it in it's own function, otherwise the variable tableRow will be overridden.
-                    //if you want to know more, ask Tyler.
-                    flashRow(tableRow);
-                }
-                //Alarm hasn't fired, let's see if it should!
-                else if (alarms[i].isEnabled == true && alarms[i].alarmDateTime.toLocaleTimeString() === now.toLocaleTimeString() && alarms[i].alarmDateTime.toLocaleDateString() === now.toLocaleDateString()) {
-                    //the alarm has triggered so it can flash red :)
-                    alarms[i].isTriggered = true;
-                    //we're changing the button and classes so we'll activate the dismiss button function, not the delete button fucntion!
-                    changeButtonState(("#delete" + alarms[i].alarmId), "btn-success", "dismissAlarm", "btn-danger", "deleteAlarm", "Dismiss");
-                    $("#update" + alarms[i].alarmId).prop("disabled", true);
-                    //let's get this flashing started!
-                    flashRow($("#delete" + alarms[i].alarmId).parent().parent());
+                //only check the alarm state if the alarm is enabled.
+                if (alarms[i].isEnabled == true) {
+                    var yellowAlarmDateTime = new Date(alarms[i].alarmDateTime.getFullYear(), alarms[i].alarmDateTime.getMonth(), alarms[i].alarmDateTime.getDate(),
+                        alarms[i].alarmDateTime.getHours(), alarms[i].alarmDateTime.getMinutes(), alarms[i].alarmDateTime.getSeconds(), 0);
+                    yellowAlarmDateTime.setHours(alarms[i].alarmDateTime.getHours() - user.yellowAlarmTime.getHours());
+                    yellowAlarmDateTime.setMinutes(alarms[i].alarmDateTime.getMinutes() - user.yellowAlarmTime.getMinutes());
+                    yellowAlarmDateTime.setSeconds(alarms[i].alarmDateTime.getSeconds() - user.yellowAlarmTime.getSeconds());
+                    var redAlarmDateTime = new Date(alarms[i].alarmDateTime.getFullYear(), alarms[i].alarmDateTime.getMonth(), alarms[i].alarmDateTime.getDate(),
+                        alarms[i].alarmDateTime.getHours(), alarms[i].alarmDateTime.getMinutes(), alarms[i].alarmDateTime.getSeconds(), 0);
+                    redAlarmDateTime.setHours(alarms[i].alarmDateTime.getHours() - user.redAlarmTime.getHours());
+                    redAlarmDateTime.setMinutes(alarms[i].alarmDateTime.getMinutes() - user.redAlarmTime.getMinutes());
+                    redAlarmDateTime.setSeconds(alarms[i].alarmDateTime.getSeconds() - user.redAlarmTime.getSeconds());
+                    console.log(yellowAlarmDateTime.toLocaleTimeString());
+                    console.log(redAlarmDateTime.toLocaleTimeString());
+                    if (yellowAlarmDateTime.toLocaleTimeString() === now.toLocaleTimeString()) {
+                        console.log("yellow alarm Time!");
+                    }
+                    if (redAlarmDateTime.toLocaleTimeString() === now.toLocaleTimeString()) {
+                        console.log("red alarm Time!");
+                    }
+                    if (alarms[i].isTriggered) {
+                        //we need to grab the table row so we can make it flash red.
+                        //we do that here becuase we need to get this specific alarm's row.
+                        var tableRow = $("#delete" + alarms[i].alarmId).parent().parent();
+                        //this is the function that flashes the rows. It has a setTimeout which is kinda like a sleep.
+                        //because of this sleep, we have to do it in it's own function, otherwise the variable tableRow will be overridden.
+                        //if you want to know more, ask Tyler.
+                        flashRow(tableRow);
+                    }
+                    //Alarm hasn't fired, let's see if it should!
+                    else if (alarms[i].alarmDateTime.toLocaleTimeString() === now.toLocaleTimeString() && alarms[i].alarmDateTime.toLocaleDateString() === now.toLocaleDateString()) {
+                        //the alarm has triggered so it can flash red :)
+                        alarms[i].isTriggered = true;
+                        //we're changing the button and classes so we'll activate the dismiss button function, not the delete button fucntion!
+                        changeButtonState(("#delete" + alarms[i].alarmId), "btn-success", "dismissAlarm", "btn-danger", "deleteAlarm", "Dismiss");
+                        $("#update" + alarms[i].alarmId).prop("disabled", true);
+                        //let's get this flashing started!
+                        flashRow($("#delete" + alarms[i].alarmId).parent().parent());
+                    }
                 }
             }
         }
