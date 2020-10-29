@@ -1,8 +1,12 @@
-﻿using Student_Alarm_Clock.Model;
+﻿using Microsoft.Ajax.Utilities;
+using Student_Alarm_Clock.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
@@ -12,26 +16,17 @@ namespace Student_Alarm_Clock.Controllers
 {
     public class HomeController : Controller
     {
+        public AlarmEntities db = new AlarmEntities(); 
+
         public ActionResult Index()
         {
-            //Creating object of CheckBoxList model class
-            CreateAlarmModel ChkItems = new CreateAlarmModel();
+            List<alarm_list> alarms = new List<alarm_list>();
 
-            //Additng items to the list
-            List<CreateAlarmModel> ChkItem = new List<CreateAlarmModel>()
+            using (db)
             {
-              new CreateAlarmModel {Value=1,Name="Monday",IsChecked=true },
-              new CreateAlarmModel {Value=2,Name="Tuesday",IsChecked=false },
-              new CreateAlarmModel {Value=3,Name="Wednesday",IsChecked=false },
-              new CreateAlarmModel {Value=4,Name="Thursday" ,IsChecked=false},
-              new CreateAlarmModel {Value=5,Name="Friday",IsChecked=false },
-              new CreateAlarmModel {Value=6,Name="Saturday" ,IsChecked=false},
-              new CreateAlarmModel {Value=7,Name="Sunday" ,IsChecked=false}
-            };
-            //assigning records to the CheckBoxItems list 
-            ChkItems.CheckBoxItems = ChkItem;
-
-            return View(ChkItems);
+                alarms = db.alarm_list.ToList();
+            }
+            return View(alarms);
         }
         public ActionResult CreateAlarm()
         {
@@ -69,13 +64,13 @@ namespace Student_Alarm_Clock.Controllers
             DateTime time = DateTime.Parse(list.alarmDateTime);
             try
             {
-                using (var db = new AlarmsEntities())
+                using (db = new AlarmEntities())
                 {
                     var alarmList = new alarm_list();
                     alarmList.userID = "0";
                     alarmList.wakeTime = time.TimeOfDay;
-                    alarmList.yellowTime = time.TimeOfDay;
-                    alarmList.redTime = time.TimeOfDay;
+                    //alarmList.yellowTime = time.TimeOfDay;
+                    //alarmList.redTime = time.TimeOfDay;
 
                     db.alarm_list.Add(alarmList);
                     db.SaveChanges();
@@ -101,6 +96,17 @@ namespace Student_Alarm_Clock.Controllers
                 Debug.WriteLine(e);
                 return View("Index");
             }
+        }
+
+        public ActionResult ReturnAlarms()
+        {
+            List<alarm_list> alarms = new List<alarm_list>();
+
+            using(db = new AlarmEntities())
+            {
+                alarms = db.alarm_list.ToList();
+            }
+            return View(alarms);
         }
 
         public ActionResult About()
