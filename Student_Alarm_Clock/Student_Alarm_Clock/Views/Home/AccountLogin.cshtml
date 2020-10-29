@@ -5,17 +5,23 @@
 
 <script>
     function formValidation() {
-        //add more validation
         let validated = true;
-        let userName = document.getElementById('<%= newUser.ClientID %>').value;
-        let userPass = document.getElementById('<%= newPass.ClientID %>').value;
+        let username = document.getElementById("username").value;
+        let userPass = document.getElementById('password').value;
 
+
+        //is input valid
         if (userName != undefined) {
             if (userName.length < 8) {
                 validated = false;
                 return validated
             }
         }
+
+
+        //is username + password combo valid
+
+        //contact server
     }
 </script>
 
@@ -44,7 +50,7 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <input type="text" id="ClientID" name="ClientID" placeholder="" required />
+                    <input type="text" id="username" placeholder="" required />
                 </div>
             </div>
 
@@ -56,7 +62,7 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <input type="text" id="ClientID" placeholder="" required />
+                    <input type="text" id="password" placeholder="" required />
                 </div>
             </div>
 
@@ -64,7 +70,7 @@
 
             <div class="row">
                 <div class="col-lg-1">
-                    <input class="button" type="submit" value="Submit" name="submit" onClick="formValidation()" />
+                    <input class="button" type="submit" value="Submit" name="submit" onclick="formValidation()" />
                 </div>
             </div>
         </div>

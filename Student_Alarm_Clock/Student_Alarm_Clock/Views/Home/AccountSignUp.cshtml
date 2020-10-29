@@ -7,47 +7,89 @@
     function formValidation() {
         //validate inputs for being unique
 
-        //validate inputs for being valid
-        let validated = true;
+        //validate inputs for being valid        
+        let firstName = document.getElementById('firstName').value;
+        let lastName = document.getElementById('lastName').value;
+        let username = document.getElementById("username").value;
+        let userPass1 = document.getElementById('userPass1').value;
+        let userPass2 = document.getElementById('userPass1').value;
+        minlength = 3;
+        maxlength = 24;
 
-        let firstName = document.getElementById('<%= newUser.ClientID %>').value;
-        let lastName = document.getElementById('<%= newUser.ClientID %>').value;
-        let userName = document.getElementById('<%= newUser.ClientID %>').value;
-        let userPass1 = document.getElementById('<%= newPass.ClientID %>').value;
-        let userPass2 = document.getElementById('<%= newPass.ClientID %>').value;
-
-        if (userName != undefined) {
-            if (userName.length < 8) {
-                validated = false;
-                alert("Username is less than 8 characters");
-                return validated
+        digits = "1234567890";
+        
+        for (i = 0; i < firstName.length; i++) {
+            if (digits.indexOf(firstName.charAt(i)) == 1) {
+                alert("Name Must Not Contain Numbers");
+                return false;
             }
         }
 
+        for (i = 0; i < lastName.length; i++) {
+            if (digits.indexOf(lastName.charAt(i)) == 1) {
+                alert("Name Must Not Contain Numbers");
+                return false;
+            }
+        }       
+
         if (firstName != undefined) {
-            if (firstName.length < 2) {
-                alert("First Name is less than 2 characters");
-                validated = false;
-                return validated
+            if (firstName.length < minlength) {
+                alert("First name is less than " + minlength + " characters");
+                return false;
+            }
+
+            if (firstName.length > maxlength) {
+                alert("First name is greater than " + maxlength + " characters");
+                return false;
             }
         }
 
         if (lastName != undefined) {
-            if (lastName.length < 2) {
-                alert("First Name is less than 2 characters");
-                validated = false;
-                return validated
+            if (lastName.length < minlength) {
+                alert("Last name is less than " + minlength + " characters");
+                return false;
+            }
+
+            if (lastName.length > maxlength) {
+                alert("Last name is greater than " + maxlength + " characters");
+                return false;
             }
         }
 
-        if (userPass1 = userPass2) {
-            //accept
-        } else {
-            //get his ass
-            alert("Password does not match");
-            validated = false;
-            return validated
+        if (username != undefined) {
+            if (username.length < minlength) {
+                alert("Username is less than " + minlength + " characters");
+                return false;
+            }
+
+            if (username.length > maxlength) {
+                alert("Username name is greater than " + maxlength + " characters");
+                return false;
+            }
         }
+
+        if (userPass1 && userPass2 != undefined) {
+            if (userPass1.v == userPass2.value) {
+                //get his ass
+                alert("Passwords do not match");
+                return false;
+            }
+
+            if (userPass1.length < minlength) {
+                alert("Password is less than " + minlength + " characters");
+                return false;
+            }
+
+            if (userPass1.length > maxlength) {
+                alert("Password is greater than " + maxlength + " characters");
+                return false;
+            }
+
+        } else {
+            alert("Enter a password")
+        }
+
+        return false;
     }
 </script>
 
@@ -78,7 +120,7 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <input type="text" id="ClientID" name="firstName" placeholder="John" required />
+                    <input type="text" id="firstName" placeholder="John" required />
                 </div>
             </div>
 
@@ -90,7 +132,7 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <input type="text" id="ClientID" placeholder="Doe" required />
+                    <input type="text" id="lastName" placeholder="Doe" required />
                 </div>
             </div>
 
@@ -98,11 +140,11 @@
 
             <div class="row">
                 <div class="col-sm-3">
-                    <label for="userName">Enter Username</label>
+                    <label for="username">Enter Username</label>
                 </div>
 
                 <div class="col-sm-3">
-                    <input type="text" id="ClientID" name="ClientID" placeholder="" required />
+                    <input type="text" id="username" placeholder="" required />
                 </div>
             </div>
 
@@ -134,7 +176,7 @@
 
             <div class="row">
                 <div class="col-sm-3">
-                    <input class="button" type="submit" value="Submit" name="submit" onClick="formValidation()" />
+                    <input class="button" type="submit" value="Submit" name="submit" onclick="formValidation()" />
                 </div>
                 <div class="col-sm-3">
                     All fields are required.
