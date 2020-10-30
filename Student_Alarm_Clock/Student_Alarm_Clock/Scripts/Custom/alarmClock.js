@@ -11,10 +11,20 @@ $(document).ready(function () {
 
         var date = [now.getDate(),
         months[now.getMonth()],
-        now.getFullYear()].join(' ');
+            now.getFullYear()].join(' ');
+
         //setting up the date and time strings that are displayed on the screen.
         $('#date').text(date);
-        $('#time').text(now.toLocaleTimeString());
+        var amOrPm = now.toLocaleTimeString().substring(now.toLocaleTimeString().length - 2, now.toLocaleTimeString().length);
+        if (amOrPm === "AM") {
+            $("#alarmTimeAM").html("AM YEET");
+            $("#alarmTimePM").html("I'm greyed out");
+        }
+        if (amOrPm === "PM") {
+            $("#alarmTimeAM").html("I'm greyed out");
+            $("#alarmTimePM").html("PM YEEET");
+        }
+        $('#time').text(now.toLocaleTimeString().substring(0, now.toLocaleTimeString().length - 2));
 
         //if we got some alarms, lets see if they should go off!
         if (alarms.length > 0) {
