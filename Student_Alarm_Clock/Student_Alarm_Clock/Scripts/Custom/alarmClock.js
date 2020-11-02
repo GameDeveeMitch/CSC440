@@ -59,12 +59,12 @@ $(document).ready(function () {
         $('#date').text(date);
         var amOrPm = now.toLocaleTimeString().substring(now.toLocaleTimeString().length - 2, now.toLocaleTimeString().length);
         if (amOrPm === "AM") {
-            $("#alarmTimeAM").val("AM YEET");
-            $("#alarmTimePM").val("I'm greyed out");
+            $("#alarmTimeAM").css('color', 'white');
+            $("#alarmTimePM").css('color', 'grey');
         }
         if (amOrPm === "PM") {
-            $("#alarmTimeAM").val("I'm greyed out");
-            $("#alarmTimePM").val("PM YEEET");
+            $("#alarmTimeAM").css('color', 'grey');
+            $("#alarmTimePM").css('color', 'white');
         }
         $('#time').text(now.toLocaleTimeString().substring(0, now.toLocaleTimeString().length - 2));
 
