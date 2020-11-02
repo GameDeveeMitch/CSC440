@@ -5,18 +5,18 @@
 <script type="text/javascript" src="~/Scripts/Custom/alarmClock.js"></script>
 
 <div class="jumbotron">
-    <h1>Welcome To The Terradome</h1>
-    <p class="lead">The BEST alarm clock</p>
-</div>
+    <div class="row">
+        <div class="col-sm-4 d-flex justify-content-center">
+            <h1 class="time" id="time" style:"float:left">Time</h1>
 
-<div>
-    <div class="col-sm-12">
-        <p id="time">Time</p>
-    </div>
-</div>
-<div>
-    <div class="col-sm-12">
-        <p id="date">Date</p>
+        </div>
+
+        <div class="col-sm-3 d-flex justify-content-center">
+            <h3 id="alarmTimeAM">AM</h3>
+            <br />
+            <h3 id="alarmTimePM">PM</h3>
+        </div>
+        <h1 id="date">Date</h1>
     </div>
 </div>
 <div class="row">
@@ -28,12 +28,6 @@
         <br />
         <label for="alarmTime">Time</label>
         <input id="alarmTime" type="time" step="1" />
-        <br />
-        <label for="alarmTimeAM">AM</label>
-        <input id="alarmTimeAM" type="text" />
-        <br />
-        <label for="alarmTimePM">PM</label>
-        <input id="alarmTimePM" type="text" />
 
         <br />
         <br />
