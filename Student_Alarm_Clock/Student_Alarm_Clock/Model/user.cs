@@ -12,12 +12,13 @@ namespace Student_Alarm_Clock.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class alarm_list
+    public partial class user
     {
-        public int alarmID { get; set; }
-        public Nullable<System.DateTime> alarmDateTime { get; set; }
-        public Nullable<bool> isEnabled { get; set; }
-        public string alarmName { get; set; }
-        public string alarmDays { get; set; }
+        public int userID { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string username { get; set; }
+        public string userPassword { get; set; }
+        public string alarmID { get; set; }
     }
 }

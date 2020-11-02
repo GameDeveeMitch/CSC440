@@ -5,12 +5,24 @@
       <PropertyRef Name="alarmID" />
     </Key>
     <Property Name="alarmID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="userID" Type="varchar" MaxLength="18" />
-    <Property Name="wakeTime" Type="time" Precision="7" />
-    <Property Name="yellowTime" Type="time" Precision="7" />
-    <Property Name="redTime" Type="time" Precision="7" />
+    <Property Name="alarmDateTime" Type="datetime" />
+    <Property Name="isEnabled" Type="bit" />
+    <Property Name="alarmName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="alarmDays" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="userID" />
+    </Key>
+    <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="lastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="userPassword" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="alarmID" Type="varchar" MaxLength="1000" />
   </EntityType>
   <EntityContainer Name="AlarmsModelStoreContainer">
     <EntitySet Name="alarm_list" EntityType="Self.alarm_list" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>
