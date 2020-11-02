@@ -10,13 +10,25 @@
             <PropertyRef Name="alarmID" />
           </Key>
           <Property Name="alarmID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="userID" Type="varchar" MaxLength="18" />
-          <Property Name="wakeTime" Type="time" Precision="7" />
-          <Property Name="yellowTime" Type="time" Precision="7" />
-          <Property Name="redTime" Type="time" Precision="7" />
+          <Property Name="alarmDateTime" Type="datetime" />
+          <Property Name="isEnabled" Type="bit" />
+          <Property Name="alarmName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="alarmDays" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="lastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="userPassword" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="alarmID" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityContainer Name="AlarmsModelStoreContainer">
           <EntitySet Name="alarm_list" EntityType="Self.alarm_list" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -28,13 +40,25 @@
             <PropertyRef Name="alarmID" />
           </Key>
           <Property Name="alarmID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="userID" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
-          <Property Name="wakeTime" Type="Time" Precision="7" />
-          <Property Name="yellowTime" Type="Time" Precision="7" />
-          <Property Name="redTime" Type="Time" Precision="7" />
+          <Property Name="alarmDateTime" Type="DateTime" Precision="3" />
+          <Property Name="isEnabled" Type="Boolean" />
+          <Property Name="alarmName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="alarmDays" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="alarmID" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="AlarmsEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="alarm_list" EntityType="Self.alarm_list" />
+          <EntitySet Name="users" EntityType="Self.user" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -46,10 +70,22 @@
             <EntityTypeMapping TypeName="AlarmsModel.alarm_list">
               <MappingFragment StoreEntitySet="alarm_list">
                 <ScalarProperty Name="alarmID" ColumnName="alarmID" />
+                <ScalarProperty Name="alarmDateTime" ColumnName="alarmDateTime" />
+                <ScalarProperty Name="isEnabled" ColumnName="isEnabled" />
+                <ScalarProperty Name="alarmName" ColumnName="alarmName" />
+                <ScalarProperty Name="alarmDays" ColumnName="alarmDays" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="AlarmsModel.user">
+              <MappingFragment StoreEntitySet="users">
                 <ScalarProperty Name="userID" ColumnName="userID" />
-                <ScalarProperty Name="wakeTime" ColumnName="wakeTime" />
-                <ScalarProperty Name="yellowTime" ColumnName="yellowTime" />
-                <ScalarProperty Name="redTime" ColumnName="redTime" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="alarmID" ColumnName="alarmID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

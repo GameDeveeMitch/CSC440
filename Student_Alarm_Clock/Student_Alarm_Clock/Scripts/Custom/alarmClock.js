@@ -15,11 +15,33 @@ class User {
         this.redAlarmTime = redAlarmTime;
     }
 }
+//the dates come back weird from json.parse. Let's make a custom function to fix that.
+dateTimeReviver = function (key, value) {
+    var a;
+    if (typeof value === 'string') {
+        a = /\/Date\((\d*)\)\//.exec(value);
+        if (a) {
+            return new Date(+a[1]);
+        }
+    }
+    return value;
+}
 //wait for the document and elements to load before we do our thang.
 
 $(document).ready(function () {
     var id = 0;
     var alarms = [];
+    $.get("/Home/readAlarms", function(data) {
+        var readAlarms = JSON.parse(data, dateTimeReviver);
+        readAlarms.forEach(alarm => {
+            alarms.push(new Alarm(alarm.alarmDateTime, false, alarm.alarmID, alarm.alarmName, alarm.alarmDays, alarm.isEnabled))
+            addAlarmToPage(alarm.alarmID, alarm.alarmName, alarm.alarmDateTime, alarm.isEnabled);
+            if (alarm.alarmID > id) {
+                id = alarm.alarmID;
+            }
+            });
+    });
+    //check if user is set to something first, if not, then we set the yellow and red alarms to their defaults.
     var d = new Date(0, 0, 0, 8, 0, 0, 0);
     var d2 = new Date(0, 0, 0, 6, 0, 0, 0);
     var user = new User(d, d2);
@@ -35,7 +57,16 @@ $(document).ready(function () {
         now.getFullYear()].join(' ');
         //setting up the date and time strings that are displayed on the screen.
         $('#date').text(date);
-        $('#time').text(now.toLocaleTimeString());
+        var amOrPm = now.toLocaleTimeString().substring(now.toLocaleTimeString().length - 2, now.toLocaleTimeString().length);
+        if (amOrPm === "AM") {
+            $("#alarmTimeAM").val("AM YEET");
+            $("#alarmTimePM").val("I'm greyed out");
+        }
+        if (amOrPm === "PM") {
+            $("#alarmTimeAM").val("I'm greyed out");
+            $("#alarmTimePM").val("PM YEEET");
+        }
+        $('#time').text(now.toLocaleTimeString().substring(0, now.toLocaleTimeString().length - 2));
 
         //if we got some alarms, lets see if they should go off!
         if (alarms.length > 0) {
@@ -52,8 +83,6 @@ $(document).ready(function () {
                     redAlarmDateTime.setHours(alarms[i].alarmDateTime.getHours() - user.redAlarmTime.getHours());
                     redAlarmDateTime.setMinutes(alarms[i].alarmDateTime.getMinutes() - user.redAlarmTime.getMinutes());
                     redAlarmDateTime.setSeconds(alarms[i].alarmDateTime.getSeconds() - user.redAlarmTime.getSeconds());
-                    console.log(yellowAlarmDateTime.toLocaleTimeString());
-                    console.log(redAlarmDateTime.toLocaleTimeString());
                     if (yellowAlarmDateTime.toLocaleTimeString() === now.toLocaleTimeString()) {
                         console.log("yellow alarm Time!");
                     }
@@ -108,6 +137,14 @@ $(document).ready(function () {
                 else {
                     alarms[i].isEnabled = false;
                 }
+                console.log("we here?");
+                $.post("/Home/updateAlarm", {
+                    alarmID: alarms[i].alarmId,
+                    alarmDateTime: alarms[i].alarmDateTime.toLocaleDateString() + " " + alarms[i].alarmDateTime.toLocaleTimeString(),
+                    isEnabled: alarms[i].isEnabled,
+                    alarmName: alarms[i].alarmName,
+                    alarmDays: alarms[i].alarmDays
+                });
                 break;
             }
         }
@@ -277,6 +314,14 @@ $(document).ready(function () {
 
                 changeButtonState(this, "btn-primary", "updateAlarm", "btn-success", "confirmUpdate", "Update");
                 changeButtonState(("#delete" + alarms[i].alarmId), "btn-danger", "deleteAlarm", "btn-primary", "cancelAlarm", "Delete");
+                
+                $.post("/Home/updateAlarm", {
+                    alarmID: alarms[i].alarmId,
+                    alarmDateTime: date.toLocaleDateString() + " " + date.toLocaleTimeString(),
+                    isEnabled: alarms[i].isEnabled,
+                    alarmName: alarms[i].alarmName,
+                    alarmDays: alarms[i].alarmDays
+                });
                 break;
             }
         }
@@ -307,29 +352,12 @@ $(document).ready(function () {
             return number;
         }
     }
-    //temp function for alarm time submission. TODO Tyler remove this when we have this in users
-    $("#submitAlarmTimes").click(function () {
-        var hours = parseInt($("#yellowAlarmTimeHours").val());
-        var minutes = parseInt($("#yellowAlarmTimeMinutes").val());
-        var seconds = parseInt($("#yellowAlarmTimeSeconds").val());
-        if (isNaN(seconds)) {
-            seconds = 0;
-        }
-        d.setHours(hours);
-        d.setMinutes(minutes);
-        d.setSeconds(seconds);
-        user.yellowAlarmTime = d;
-        var hours = parseInt($("#redAlarmTimeHours").val());
-        var minutes = parseInt($("#redAlarmTimeMinutes").val());
-        var seconds = parseInt($("#redAlarmTimeSeconds").val());
-        if (isNaN(seconds)) {
-            seconds = 0;
-        }
-        d.setHours(hours);
-        d.setMinutes(minutes);
-        d.setSeconds(seconds);
-        user.redAlarmTime = d;
-    });
+    function addAlarmToPage(id, alarmName, date, isEnabled) {
+        $("#alarms").append("<tr><td><input type=\"checkbox\" id=\"isEnabled" + id + "\" name=\"enabledGroup\" value=\"" + id + "\" " + (isEnabled ? "checked" : "") + "></td><td><span id=\"alarmName" + id + "\">" + alarmName
+            + "</span></td><td><span id=\"alarmTime" + id + "\">" + date.toLocaleTimeString() + " on "
+            + date.toLocaleDateString() + "</span></td>" + "<td> <button class=\"btn btn-primary updateAlarm\" id=\"update" + id + "\">Update</button></td>"
+            + "<td> <button class=\"btn btn-danger deleteAlarm\" id=\"delete" + id + "\">Delete</button></td></tr>");
+    }
     //When the "set alarm" button is clicked we take the info off the page and set up an alarm with it.
     $('#createAlarm').click(function () {
         //most imput values come back as strings unless it's labed as a number
@@ -393,14 +421,14 @@ $(document).ready(function () {
         alarms.push(newAlarm);
         console.log(alarms);
 
-        $("#alarms").append("<tr><td><input type=\"checkbox\" id=\"isEnabled"+ id+"\" name=\"enabledGroup\" value=\""+ id +"\" checked></td><td><span id=\"alarmName" + id + "\">" + alarmName
-            + "</span></td><td><span id=\"alarmTime"+ id + "\">" + date.toLocaleTimeString() + " on "
-            + date.toLocaleDateString() + "</span></td>" + "<td> <button class=\"btn btn-primary updateAlarm\" id=\"update" + id + "\">Update</button></td>"
-            + "<td> <button class=\"btn btn-danger deleteAlarm\" id=\"delete" + id + "\">Delete</button></td></tr>");
-        id++;
+        addAlarmToPage(id, alarmName, date, true);
         $.post("/Home/addAlarm", {
+            alarmID: id,
             alarmDateTime: date.toLocaleDateString() + " " + date.toLocaleTimeString(),
-            alarmName: alarmName
+            isEnabled: true,
+            alarmName: alarmName,
+            alarmDays: daysChecked
         });
+        id++;
     });
 });

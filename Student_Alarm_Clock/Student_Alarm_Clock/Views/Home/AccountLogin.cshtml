@@ -1,0 +1,77 @@
+﻿
+
+@{
+    ViewBag.Title = "AccountLogin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript" src="~/Scripts/Custom/user.js"></script>
+
+<script>
+    function formValidation() {
+        let validated = true;
+        let username = document.getElementById("username").value;
+        let userPass = document.getElementById('password').value;
+        //is input valid
+        if (userName != undefined) {
+            if (userName.length < 8) {
+                validated = false;
+                return validated
+            }
+        }
+        //is username + password combo valid
+        //contact server
+    }
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>
+                Alarm Clock Login
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <br />
+        </div>
+    </div>
+</div>
+
+<div class="form-container">
+    <form name="registerForm">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="userName">Enter Username</label>
+                </div>
+
+                <div class="col-sm-3">
+                    <input type="text" id="username" placeholder="" required />
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="userPass">Password</label>
+                </div>
+
+                <div class="col-sm-3">
+                    <input type="text" id="password" placeholder="" required />
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col-lg-1">
+                    <input class="button" type="submit" value="Submit" name="submit" onclick="formValidation()" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

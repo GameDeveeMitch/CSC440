@@ -5,10 +5,22 @@
       <EntityTypeMapping TypeName="AlarmsModel.alarm_list">
         <MappingFragment StoreEntitySet="alarm_list">
           <ScalarProperty Name="alarmID" ColumnName="alarmID" />
+          <ScalarProperty Name="alarmDateTime" ColumnName="alarmDateTime" />
+          <ScalarProperty Name="isEnabled" ColumnName="isEnabled" />
+          <ScalarProperty Name="alarmName" ColumnName="alarmName" />
+          <ScalarProperty Name="alarmDays" ColumnName="alarmDays" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="AlarmsModel.user">
+        <MappingFragment StoreEntitySet="users">
           <ScalarProperty Name="userID" ColumnName="userID" />
-          <ScalarProperty Name="wakeTime" ColumnName="wakeTime" />
-          <ScalarProperty Name="yellowTime" ColumnName="yellowTime" />
-          <ScalarProperty Name="redTime" ColumnName="redTime" />
+          <ScalarProperty Name="firstName" ColumnName="firstName" />
+          <ScalarProperty Name="lastName" ColumnName="lastName" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+          <ScalarProperty Name="alarmID" ColumnName="alarmID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

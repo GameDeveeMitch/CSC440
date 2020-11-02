@@ -28,21 +28,15 @@
         <br />
         <label for="alarmTime">Time</label>
         <input id="alarmTime" type="time" step="1" />
+        <br />
+        <label for="alarmTimeAM">AM</label>
+        <input id="alarmTimeAM" type="text" />
+        <br />
+        <label for="alarmTimePM">PM</label>
+        <input id="alarmTimePM" type="text" />
 
         <br />
         <br />
-        @*<div class="">
-            <h4> Select Days for Alarm</h4>
-            @foreach (var item in Model.CheckBoxItems)
-            {
-                <input id="chk@(item.Value)"
-                       type="checkbox"
-                       value="@item.Value"
-                       name="boxGroup1"
-                       checked="@item.IsChecked" />
-                @item.Name <br />
-            }
-        </div>*@
         <div>
             <h4> Select Days for Alarm</h4>
             <input type="checkbox" name="boxGroup1" value="1" checked> Monday <br />
@@ -59,23 +53,6 @@
         <button type="button" class="btn btn-primary" id="createAlarm">Set Alarm</button>
         <br />
         <br />
-        <label for="yellowAlarmTime">Yellow Alarm Time</label>
-        Hours<input id="yellowAlarmTimeHours" type="text"/>
-        <br />
-        Minutes<input id="yellowAlarmTimeMinutes" type="text"/>
-        <br />
-        Seconds<input id="yellowAlarmTimeSeconds" type="text"/>
-        <br />
-       <label for="redAlarmTime">Red Alarm Time</label>
-        Hours<input id="redAlarmTimeHours" type="text"/>
-        <br />
-        Minutes<input id="redAlarmTimeMinutes" type="text"/>
-        <br />
-        Seconds<input id="redAlarmTimeSeconds" type="text"/>
-        <br />
-        <button type="button" class="btn btn-primary" id="submitAlarmTimes">Submit Alarm Times</button>
-        <br />
-        <button type="button" class="btn btn-primary" id="goingToSleep">Going To Sleep</button>
     </div>
     <div class="col-sm-6">
         <table class="table" id="myTable">
@@ -89,12 +66,6 @@
                 </tr>
             </thead>
             <tbody id="alarms">
-                @*@foreach(var list in Model)
-                {
-                <tr>
-                    <td>@list.alarmID</td>
-                </tr>
-                }*@
             </tbody>
         </table>
     </div>
