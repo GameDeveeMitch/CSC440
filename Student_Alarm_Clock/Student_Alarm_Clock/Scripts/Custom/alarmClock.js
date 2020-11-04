@@ -1,7 +1,50 @@
-﻿//wait for the document and elements to load before we do our thang.
+﻿//let's make some alarm objects so we can track if it's triggered and it's alarm id.
+class Alarm {
+    constructor(alarmDateTime, isTriggered, alarmId, alarmName, alarmDays, isEnabled) {
+        this.alarmDateTime = alarmDateTime;
+        this.isTriggered = isTriggered;
+        this.alarmId = alarmId;
+        this.alarmName = alarmName;
+        this.alarmDays = alarmDays;
+        this.isEnabled = isEnabled;
+    }
+}
+class User {
+    constructor(yellowAlarmTime, redAlarmTime) {
+        this.yellowAlarmTime = yellowAlarmTime;
+        this.redAlarmTime = redAlarmTime;
+    }
+}
+//the dates come back weird from json.parse. Let's make a custom function to fix that.
+dateTimeReviver = function (key, value) {
+    var a;
+    if (typeof value === 'string') {
+        a = /\/Date\((\d*)\)\//.exec(value);
+        if (a) {
+            return new Date(+a[1]);
+        }
+    }
+    return value;
+}
+//wait for the document and elements to load before we do our thang.
+
 $(document).ready(function () {
     var id = 0;
     var alarms = [];
+    $.get("/Home/readAlarms", function(data) {
+        var readAlarms = JSON.parse(data, dateTimeReviver);
+        readAlarms.forEach(alarm => {
+            alarms.push(new Alarm(alarm.alarmDateTime, false, alarm.alarmID, alarm.alarmName, alarm.alarmDays, alarm.isEnabled))
+            addAlarmToPage(alarm.alarmID, alarm.alarmName, alarm.alarmDateTime, alarm.isEnabled);
+            if (alarm.alarmID > id) {
+                id = alarm.alarmID;
+            }
+            });
+    });
+    //check if user is set to something first, if not, then we set the yellow and red alarms to their defaults.
+    var d = new Date(0, 0, 0, 8, 0, 0, 0);
+    var d2 = new Date(0, 0, 0, 6, 0, 0, 0);
+    var user = new User(d, d2);
     //clockUpdate is the main loop for the alarm clock. We need tocall it every second to update the clock.
     //we will also be checking if our alarms match the alarm clock time. If so, we should go into alarm!
     clockUpdate();
@@ -14,29 +57,57 @@ $(document).ready(function () {
         now.getFullYear()].join(' ');
         //setting up the date and time strings that are displayed on the screen.
         $('#date').text(date);
-        $('#time').text(now.toLocaleTimeString());
+        var amOrPm = now.toLocaleTimeString().substring(now.toLocaleTimeString().length - 2, now.toLocaleTimeString().length);
+        if (amOrPm === "AM") {
+            $("#alarmTimeAM").css('color', 'white');
+            $("#alarmTimePM").css('color', 'grey');
+        }
+        if (amOrPm === "PM") {
+            $("#alarmTimeAM").css('color', 'grey');
+            $("#alarmTimePM").css('color', 'white');
+        }
+        $('#time').text(now.toLocaleTimeString().substring(0, now.toLocaleTimeString().length - 2));
 
         //if we got some alarms, lets see if they should go off!
         if (alarms.length > 0) {
             for (var i = 0; i < alarms.length; i++) {
-                if (alarms[i].isTriggered) {
-                    //we need to grab the table row so we can make it flash red.
-                    //we do that here becuase we need to get this specific alarm's row.
-                    var tableRow = $("#delete" + alarms[i].alarmId).parent().parent();
-                    //this is the function that flashes the rows. It has a setTimeout which is kinda like a sleep.
-                    //because of this sleep, we have to do it in it's own function, otherwise the variable tableRow will be overridden.
-                    //if you want to know more, ask Tyler.
-                    flashRow(tableRow);
-                }
-                //Alarm hasn't fired, let's see if it should!
-                else if (alarms[i].alarmDateTime.toLocaleTimeString() === now.toLocaleTimeString() && alarms[i].alarmDateTime.toLocaleDateString() === now.toLocaleDateString()) {
-                    //the alarm has triggered so it can flash red :)
-                    alarms[i].isTriggered = true;
-                    //we're changing the button and classes so we'll activate the dismiss button function, not the delete button fucntion!
-                    changeButtonState(("#delete" + alarms[i].alarmId), "btn-success", "dismissAlarm", "btn-danger", "deleteAlarm", "Dismiss");
-                    $("#update" + alarms[i].alarmId).prop("disabled", true);
-                    //let's get this flashing started!
-                    flashRow($("#delete" + alarms[i].alarmId).parent().parent());
+                //only check the alarm state if the alarm is enabled.
+                if (alarms[i].isEnabled == true) {
+                    var yellowAlarmDateTime = new Date(alarms[i].alarmDateTime.getFullYear(), alarms[i].alarmDateTime.getMonth(), alarms[i].alarmDateTime.getDate(),
+                        alarms[i].alarmDateTime.getHours(), alarms[i].alarmDateTime.getMinutes(), alarms[i].alarmDateTime.getSeconds(), 0);
+                    yellowAlarmDateTime.setHours(alarms[i].alarmDateTime.getHours() - user.yellowAlarmTime.getHours());
+                    yellowAlarmDateTime.setMinutes(alarms[i].alarmDateTime.getMinutes() - user.yellowAlarmTime.getMinutes());
+                    yellowAlarmDateTime.setSeconds(alarms[i].alarmDateTime.getSeconds() - user.yellowAlarmTime.getSeconds());
+                    var redAlarmDateTime = new Date(alarms[i].alarmDateTime.getFullYear(), alarms[i].alarmDateTime.getMonth(), alarms[i].alarmDateTime.getDate(),
+                        alarms[i].alarmDateTime.getHours(), alarms[i].alarmDateTime.getMinutes(), alarms[i].alarmDateTime.getSeconds(), 0);
+                    redAlarmDateTime.setHours(alarms[i].alarmDateTime.getHours() - user.redAlarmTime.getHours());
+                    redAlarmDateTime.setMinutes(alarms[i].alarmDateTime.getMinutes() - user.redAlarmTime.getMinutes());
+                    redAlarmDateTime.setSeconds(alarms[i].alarmDateTime.getSeconds() - user.redAlarmTime.getSeconds());
+                    if (yellowAlarmDateTime.toLocaleTimeString() === now.toLocaleTimeString()) {
+                        console.log("yellow alarm Time!");
+                    }
+                    if (redAlarmDateTime.toLocaleTimeString() === now.toLocaleTimeString()) {
+                        console.log("red alarm Time!");
+                    }
+                    if (alarms[i].isTriggered) {
+                        //we need to grab the table row so we can make it flash red.
+                        //we do that here becuase we need to get this specific alarm's row.
+                        var tableRow = $("#delete" + alarms[i].alarmId).parent().parent();
+                        //this is the function that flashes the rows. It has a setTimeout which is kinda like a sleep.
+                        //because of this sleep, we have to do it in it's own function, otherwise the variable tableRow will be overridden.
+                        //if you want to know more, ask Tyler.
+                        flashRow(tableRow);
+                    }
+                    //Alarm hasn't fired, let's see if it should!
+                    else if (alarms[i].alarmDateTime.toLocaleTimeString() === now.toLocaleTimeString() && alarms[i].alarmDateTime.toLocaleDateString() === now.toLocaleDateString()) {
+                        //the alarm has triggered so it can flash red :)
+                        alarms[i].isTriggered = true;
+                        //we're changing the button and classes so we'll activate the dismiss button function, not the delete button fucntion!
+                        changeButtonState(("#delete" + alarms[i].alarmId), "btn-success", "dismissAlarm", "btn-danger", "deleteAlarm", "Dismiss");
+                        $("#update" + alarms[i].alarmId).prop("disabled", true);
+                        //let's get this flashing started!
+                        flashRow($("#delete" + alarms[i].alarmId).parent().parent());
+                    }
                 }
             }
         }
@@ -51,6 +122,29 @@ $(document).ready(function () {
             if (alarms[i].alarmId == this.id.substring(6)) {
                 alarms.splice(i, 1);
                 $(this).parent().parent().remove();
+                break;
+            }
+        }
+    });
+    // when we click an enabled button we make sure to turn it's object enabled to false.
+    $(document).on('change', 'input[name="enabledGroup"]', function () {
+        for (var i = 0; i < alarms.length; i++) {
+            //substring out the "delete" that is before the id number.
+            if (alarms[i].alarmId == this.id.substring(9)) {
+                if (this.checked) {
+                    alarms[i].isEnabled = true;
+                }
+                else {
+                    alarms[i].isEnabled = false;
+                }
+                console.log("we here?");
+                $.post("/Home/updateAlarm", {
+                    alarmID: alarms[i].alarmId,
+                    alarmDateTime: alarms[i].alarmDateTime.toLocaleDateString() + " " + alarms[i].alarmDateTime.toLocaleTimeString(),
+                    isEnabled: alarms[i].isEnabled,
+                    alarmName: alarms[i].alarmName,
+                    alarmDays: alarms[i].alarmDays
+                });
                 break;
             }
         }
@@ -220,6 +314,14 @@ $(document).ready(function () {
 
                 changeButtonState(this, "btn-primary", "updateAlarm", "btn-success", "confirmUpdate", "Update");
                 changeButtonState(("#delete" + alarms[i].alarmId), "btn-danger", "deleteAlarm", "btn-primary", "cancelAlarm", "Delete");
+                
+                $.post("/Home/updateAlarm", {
+                    alarmID: alarms[i].alarmId,
+                    alarmDateTime: date.toLocaleDateString() + " " + date.toLocaleTimeString(),
+                    isEnabled: alarms[i].isEnabled,
+                    alarmName: alarms[i].alarmName,
+                    alarmDays: alarms[i].alarmDays
+                });
                 break;
             }
         }
@@ -249,6 +351,12 @@ $(document).ready(function () {
         else {
             return number;
         }
+    }
+    function addAlarmToPage(id, alarmName, date, isEnabled) {
+        $("#alarms").append("<tr><td><input type=\"checkbox\" id=\"isEnabled" + id + "\" name=\"enabledGroup\" value=\"" + id + "\" " + (isEnabled ? "checked" : "") + "></td><td><span id=\"alarmName" + id + "\">" + alarmName
+            + "</span></td><td><span id=\"alarmTime" + id + "\">" + date.toLocaleTimeString() + " on "
+            + date.toLocaleDateString() + "</span></td>" + "<td> <button class=\"btn btn-primary updateAlarm\" id=\"update" + id + "\">Update</button></td>"
+            + "<td> <button class=\"btn btn-danger deleteAlarm\" id=\"delete" + id + "\">Delete</button></td></tr>");
     }
     //When the "set alarm" button is clicked we take the info off the page and set up an alarm with it.
     $('#createAlarm').click(function () {
@@ -309,28 +417,18 @@ $(document).ready(function () {
         date.setHours(hours);
         date.setMinutes(minutes);
         date.setSeconds(seconds);
-        var newAlarm = new Alarm(date, false, id, alarmName, daysChecked);
+        var newAlarm = new Alarm(date, false, id, alarmName, daysChecked, true);
         alarms.push(newAlarm);
         console.log(alarms);
 
-        $("#alarms").append("<tr><td><span id=\"alarmName" + id + "\">" + alarmName
-            + "</span></td><td><span id=\"alarmTime"+ id + "\">" + date.toLocaleTimeString() + " on "
-            + date.toLocaleDateString() + "</span></td>" + "<td> <button class=\"btn btn-primary updateAlarm\" id=\"update" + id + "\">Update</button></td>"
-            + "<td> <button class=\"btn btn-danger deleteAlarm\" id=\"delete" + id + "\">Delete</button></td></tr>");
-        id++;
+        addAlarmToPage(id, alarmName, date, true);
         $.post("/Home/addAlarm", {
+            alarmID: id,
             alarmDateTime: date.toLocaleDateString() + " " + date.toLocaleTimeString(),
-            alarmName: alarmName
+            isEnabled: true,
+            alarmName: alarmName,
+            alarmDays: daysChecked
         });
+        id++;
     });
-    //let's make some alarm objects so we can track if it's triggered and it's alarm id.
-    class Alarm {
-        constructor(alarmDateTime, isTriggered, alarmId, alarmName, alarmDays) {
-            this.alarmDateTime = alarmDateTime;
-            this.isTriggered = isTriggered;
-            this.alarmId = alarmId;
-            this.alarmName = alarmName;
-            this.alarmDays = alarmDays;
-        }
-    }
 });

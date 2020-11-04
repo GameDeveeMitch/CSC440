@@ -1,23 +1,22 @@
 ﻿@model IEnumerable<Student_Alarm_Clock.Model.alarm_list>
-
 @{
     ViewBag.Title = "Home Page";
 }
 <script type="text/javascript" src="~/Scripts/Custom/alarmClock.js"></script>
 
 <div class="jumbotron">
-    <h1>Welcome To The Terradome</h1>
-    <p class="lead">The BEST alarm clock</p>
-</div>
+    <div class="row">
+        <div class="col-sm-4 d-flex justify-content-center">
+            <h1 class="time" id="time" style:"float:left">Time</h1>
 
-<div>
-    <div class="col-sm-12">
-        <p id="time">Time</p>
-    </div>
-</div>
-<div>
-    <div class="col-sm-12">
-        <p id="date">Date</p>
+        </div>
+
+        <div class="col-sm-3 d-flex justify-content-center">
+            <h3 id="alarmTimeAM">AM</h3>
+            <br />
+            <h3 id="alarmTimePM">PM</h3>
+        </div>
+        <h1 id="date">Date</h1>
     </div>
 </div>
 <div class="row">
@@ -27,7 +26,7 @@
 
         <br />
         <br />
-        <label for="time">Time</label>
+        <label for="alarmTime">Time</label>
         <input id="alarmTime" type="time" step="1" />
 
         <br />
@@ -46,11 +45,14 @@
         <br />
         <br />
         <button type="button" class="btn btn-primary" id="createAlarm">Set Alarm</button>
+        <br />
+        <br />
     </div>
     <div class="col-sm-6">
         <table class="table" id="myTable">
             <thead>
                 <tr>
+                    <th>Enabled</th>
                     <th>Alarm Name</th>
                     <th>Alarm Time</th>
                     <th>Update Alarm</th>
@@ -58,17 +60,6 @@
                 </tr>
             </thead>
             <tbody id="alarms">
-                @foreach (var list in Model) /*Tried to comment field that I was not currntly using. For now I have just suppressed the exception with hopes of
-                        understanding more in the future. Will have to reupdate my DB, alarm_list model, and HomeController so do not accept mine in the merge.*/
-                {
-                    <p>
-                        @list.alarmID
-                        @list.wakeTime
-                        @*@list.redTime
-                            @list.yellowTime*@
-                        @list.userID
-                    </p>
-                }
             </tbody>
         </table>
     </div>
