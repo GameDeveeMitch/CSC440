@@ -6,7 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="c32a39373c994cf4beb5e528d9b1495c" Name="Diagram1">
         <EntityTypeShape EntityType="AlarmsModel.alarm_list" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlarmsModel.user" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlarmsModel.alarm_log" Width="1.5" PointX="5.125" PointY="0.75" />
+        <EntityTypeShape EntityType="AlarmsModel.user" Width="1.5" PointX="2.75" PointY="0.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

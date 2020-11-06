@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\tenor\Source\Repos\CSC440\Student_Alarm_Clock\Student_Alarm_Clock\Model\DBModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Axton2323\Documents\CSC440\Student_Alarm_Clock\Student_Alarm_Clock\Model\DBModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

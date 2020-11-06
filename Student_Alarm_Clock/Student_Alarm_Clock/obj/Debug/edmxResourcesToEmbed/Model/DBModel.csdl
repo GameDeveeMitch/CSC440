@@ -6,23 +6,35 @@
     </Key>
     <Property Name="alarmID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="alarmDateTime" Type="DateTime" Precision="3" />
-    <Property Name="isEnabled" Type="Boolean" />
+    <Property Name="isEnabled" Type="Boolean" Nullable="false" />
     <Property Name="alarmName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="alarmDays" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="AlarmsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="alarm_list" EntityType="Self.alarm_list" />
+    <EntitySet Name="alarm_log" EntityType="AlarmsModel.alarm_log" />
+    <EntitySet Name="users" EntityType="AlarmsModel.user" />
+  </EntityContainer>
+  <EntityType Name="alarm_log">
+    <Key>
+      <PropertyRef Name="indexID" />
+    </Key>
+    <Property Name="indexID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="alarmID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Name="yellowStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="redStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="alarmUsed" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="logTime" Type="DateTime" Precision="3" />
   </EntityType>
   <EntityType Name="user">
     <Key>
       <PropertyRef Name="userID" />
     </Key>
     <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="userPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="firstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="userPassword" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
     <Property Name="alarmID" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
   </EntityType>
-  <EntityContainer Name="AlarmsEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="alarm_list" EntityType="Self.alarm_list" />
-    <EntitySet Name="users" EntityType="Self.user" />
-  </EntityContainer>
 </Schema>

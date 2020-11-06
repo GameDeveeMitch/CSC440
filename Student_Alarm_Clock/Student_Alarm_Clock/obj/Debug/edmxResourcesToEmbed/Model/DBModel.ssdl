@@ -6,11 +6,22 @@
     </Key>
     <Property Name="alarmID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="alarmDateTime" Type="datetime" />
-    <Property Name="isEnabled" Type="bit" />
+    <Property Name="isEnabled" Type="bit" Nullable="false" />
     <Property Name="alarmName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="alarmDays" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
-  <EntityType Name="users">
+  <EntityType Name="alarm_log">
+    <Key>
+      <PropertyRef Name="indexID" />
+    </Key>
+    <Property Name="indexID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="alarmID" Type="varchar" MaxLength="6" />
+    <Property Name="yellowStatus" Type="varchar" MaxLength="1" />
+    <Property Name="redStatus" Type="varchar" MaxLength="1" />
+    <Property Name="alarmUsed" Type="varchar" MaxLength="1" />
+    <Property Name="logTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="user">
     <Key>
       <PropertyRef Name="userID" />
     </Key>
@@ -18,11 +29,12 @@
     <Property Name="firstName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="lastName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="userPassword" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="userPassword" Type="varchar" MaxLength="1000" Nullable="false" />
     <Property Name="alarmID" Type="varchar" MaxLength="1000" />
   </EntityType>
   <EntityContainer Name="AlarmsModelStoreContainer">
     <EntitySet Name="alarm_list" EntityType="Self.alarm_list" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="alarm_log" EntityType="Self.alarm_log" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>

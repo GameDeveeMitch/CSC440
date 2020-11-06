@@ -145,6 +145,9 @@
     <Compile Include="Model\alarm_list.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\alarm_log.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\CreateAlarmModel.cs" />
     <Compile Include="Model\DBModel.Context.cs">
       <AutoGen>True</AutoGen>
