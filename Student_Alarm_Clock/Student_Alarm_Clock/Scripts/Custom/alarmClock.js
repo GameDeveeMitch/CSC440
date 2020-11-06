@@ -34,8 +34,10 @@ $(document).ready(function () {
     $.get("/Home/readAlarms", function(data) {
         var readAlarms = JSON.parse(data, dateTimeReviver);
         readAlarms.forEach(alarm => {
-            alarms.push(new Alarm(alarm.alarmDateTime, false, alarm.alarmID, alarm.alarmName, alarm.alarmDays, alarm.isEnabled))
-            addAlarmToPage(alarm.alarmID, alarm.alarmName, alarm.alarmDateTime, alarm.isEnabled);
+            alarm.alarmDays = alarm.alarmDays.split(",");
+            alarms.push(new Alarm(setAlarmDate(alarm.alarmDateTime, alarm.alarmDays), false, alarm.alarmID, alarm.alarmName, alarm.alarmDays, alarm.isEnabled))
+            addAlarmToPage(alarm.alarmID, alarm.alarmName, setAlarmDate(alarm.alarmDateTime, alarm.alarmDays), alarm.isEnabled);
+            console.log(alarm);
             if (alarm.alarmID > id) {
                 id = alarm.alarmID;
             }
@@ -119,9 +121,20 @@ $(document).ready(function () {
     $(document).on('click', 'button.deleteAlarm', function () {
         for (var i = 0; i < alarms.length; i++) {
             //substring out the "delete" that is before the id number.
+            console.log(this.id.substring(6));
             if (alarms[i].alarmId == this.id.substring(6)) {
+                var alarm = alarms[i];
                 alarms.splice(i, 1);
                 $(this).parent().parent().remove();
+                console.log(alarms[i]);
+                daysString = getDaysString(alarm.alarmDays);
+                $.post("/Home/deleteAlarm", {
+                    alarmID: alarm.alarmId,
+                    alarmDateTime: alarm.alarmDateTime.toLocaleDateString() + " " + alarm.alarmDateTime.toLocaleTimeString(),
+                    isEnabled: alarm.isEnabled,
+                    alarmName: alarm.alarmName,
+                    alarmDays: daysString
+                });
                 break;
             }
         }
@@ -137,13 +150,13 @@ $(document).ready(function () {
                 else {
                     alarms[i].isEnabled = false;
                 }
-                console.log("we here?");
+                daysString = getDaysString(alarms[i].alarmDays);
                 $.post("/Home/updateAlarm", {
                     alarmID: alarms[i].alarmId,
                     alarmDateTime: alarms[i].alarmDateTime.toLocaleDateString() + " " + alarms[i].alarmDateTime.toLocaleTimeString(),
                     isEnabled: alarms[i].isEnabled,
                     alarmName: alarms[i].alarmName,
-                    alarmDays: alarms[i].alarmDays
+                    alarmDays: daysString
                 });
                 break;
             }
@@ -158,47 +171,8 @@ $(document).ready(function () {
                 changeButtonState(this, "btn-danger", "deleteAlarm", "btn-success", "dismissAlarm", "Delete");
                 $("#update" + alarms[i].alarmId).prop("disabled", false);
 
-                var date = new Date();
+                alarms[i].alarmDateTime = setAlarmDate(alarms[i].alarmDateTime, alarms[i].alarmDays);
 
-                var dateOurTime = new Date();
-
-                dateOurTime.setHours(alarms[i].alarmDateTime.getHours());
-                dateOurTime.setMinutes(alarms[i].alarmDateTime.getMinutes());
-                dateOurTime.setSeconds(alarms[i].alarmDateTime.getSeconds());
-
-                var day = date.getDay();
-
-                var closestDay = 0;
-
-                var nextAlarmDate = 0;
-
-                for (var j = 0; j < alarms[i].alarmDays.length; j++) {
-                    var alarmDayInt = parseInt(alarms[i].alarmDays[j]);
-                    if (alarmDayInt < day) {
-                        closestDay = alarmDayInt;
-                    }
-                    else if (alarmDayInt == day && dateOurTime > date) {
-                        closestDay = alarmDayInt;
-                        nextAlarmDate = (alarmDayInt - day);
-                        break;
-                    }
-                    else if (alarmDayInt > day) {
-                        closestDay = alarmDayInt;
-                        nextAlarmDate = (alarmDayInt - day);
-                        break;
-                    }
-                }
-
-                if (closestDay < day) {
-                    nextAlarmDate = (parseInt(alarms[i].alarmDays[0]) + 7 - day);
-                }
-
-                date.setHours(alarms[i].alarmDateTime.getHours());
-                date.setMinutes(alarms[i].alarmDateTime.getMinutes());
-                date.setSeconds(alarms[i].alarmDateTime.getSeconds());
-
-                date.setDate(date.getDate() + nextAlarmDate);
-                alarms[i].alarmDateTime = date;
                 $("#alarmTime" + this.id.substring(6)).html(alarms[i].alarmDateTime.toLocaleTimeString()
                     + " on " + alarms[i].alarmDateTime.toLocaleDateString());
                 break;
@@ -265,46 +239,11 @@ $(document).ready(function () {
                     }
                 });
                 var date = new Date();
-
-                var dateOurTime = new Date();
-
-                dateOurTime.setHours(hours);
-                dateOurTime.setMinutes(minutes);
-                dateOurTime.setSeconds(seconds);
-
-                var day = date.getDay();
-
-                var closestDay = 1;
-
-                var nextAlarmDate = 0;
-
-                for (var j = 0; j < daysChecked.length; j++) {
-                    var alarmDayInt = parseInt(daysChecked[j]);
-                    if (alarmDayInt < day) {
-                        closestDay = alarmDayInt;
-                    }
-                    else if (alarmDayInt == day && dateOurTime > date) {
-                        closestDay = alarmDayInt;
-                        nextAlarmDate = (alarmDayInt - day);
-                        break;
-                    }
-                    else if (alarmDayInt > day) {
-                        closestDay = alarmDayInt;
-                        nextAlarmDate = (alarmDayInt - day);
-                        break;
-                    }
-                }
-
-                if (closestDay < day) {
-                    nextAlarmDate = (parseInt(daysChecked[0]) + 7 - day);
-                }
-
-                date.setDate(date.getDate() + nextAlarmDate);
-
                 //passing in the time to the date
                 date.setHours(hours);
                 date.setMinutes(minutes);
                 date.setSeconds(seconds);
+                date = setAlarmDate(date, daysChecked);
                 alarms[i].alarmDateTime = date;
                 alarms[i].alarmDays = daysChecked;
 
@@ -314,13 +253,14 @@ $(document).ready(function () {
 
                 changeButtonState(this, "btn-primary", "updateAlarm", "btn-success", "confirmUpdate", "Update");
                 changeButtonState(("#delete" + alarms[i].alarmId), "btn-danger", "deleteAlarm", "btn-primary", "cancelAlarm", "Delete");
-                
+
+                daysString = getDaysString(alarms[i].alarmDays);
                 $.post("/Home/updateAlarm", {
                     alarmID: alarms[i].alarmId,
                     alarmDateTime: date.toLocaleDateString() + " " + date.toLocaleTimeString(),
                     isEnabled: alarms[i].isEnabled,
                     alarmName: alarms[i].alarmName,
-                    alarmDays: alarms[i].alarmDays
+                    alarmDays: daysString
                 });
                 break;
             }
@@ -358,6 +298,61 @@ $(document).ready(function () {
             + date.toLocaleDateString() + "</span></td>" + "<td> <button class=\"btn btn-primary updateAlarm\" id=\"update" + id + "\">Update</button></td>"
             + "<td> <button class=\"btn btn-danger deleteAlarm\" id=\"delete" + id + "\">Delete</button></td></tr>");
     }
+    function setAlarmDate(alarmTime, alarmDays){
+        var date = new Date();
+
+        var dateOurTime = new Date();
+
+        dateOurTime.setHours(alarmTime.getHours());
+        dateOurTime.setMinutes(alarmTime.getMinutes());
+        dateOurTime.setSeconds(alarmTime.getSeconds());
+
+        var day = date.getDay();
+
+        var closestDay = 0;
+
+        var nextAlarmDate = 0;
+
+        for (var j = 0; j < alarmDays.length; j++) {
+            var alarmDayInt = parseInt(alarmDays[j]);
+            if (alarmDayInt < day) {
+                closestDay = alarmDayInt;
+            }
+            else if (alarmDayInt == day && dateOurTime > date) {
+                closestDay = alarmDayInt;
+                nextAlarmDate = (alarmDayInt - day);
+                break;
+            }
+            else if (alarmDayInt > day) {
+                closestDay = alarmDayInt;
+                nextAlarmDate = (alarmDayInt - day);
+                break;
+            }
+        }
+
+        if (closestDay < day) {
+            nextAlarmDate = (parseInt(alarmDays[0]) + 7 - day);
+        }
+
+        date.setHours(alarmTime.getHours());
+        date.setMinutes(alarmTime.getMinutes());
+        date.setSeconds(alarmTime.getSeconds());
+
+        date.setDate(date.getDate() + nextAlarmDate);
+        return date;
+    }
+    function getDaysString(days) {
+        var daysString = "";
+        days.forEach((day, i, array) => {
+            if (i === array.length - 1) {
+                daysString += day;
+            }
+            else {
+                daysString += day + ", ";
+            }
+        });
+        return daysString;
+    }
     //When the "set alarm" button is clicked we take the info off the page and set up an alarm with it.
     $('#createAlarm').click(function () {
         //most imput values come back as strings unless it's labed as a number
@@ -380,54 +375,24 @@ $(document).ready(function () {
         });
         var date = new Date();
 
-        var dateOurTime = new Date();
-
-        dateOurTime.setHours(hours);
-        dateOurTime.setMinutes(minutes);
-        dateOurTime.setSeconds(seconds);
-
-        var day = date.getDay();
-
-        var closestDay = 1;
-
-        var nextAlarmDate = 0;
-
-        for (var i = 0; i < daysChecked.length; i++) {
-            var alarmDayInt = parseInt(daysChecked[i]);
-            if (alarmDayInt < day) {
-                closestDay = alarmDayInt;
-            }
-            else if (alarmDayInt == day && dateOurTime > date) {
-                closestDay = alarmDayInt;
-                nextAlarmDate = (alarmDayInt - day);
-                break;
-            }
-            else if (alarmDayInt > day) {
-                closestDay = alarmDayInt;
-                nextAlarmDate = (alarmDayInt - day);
-                break;
-            }
-        }
-        if (closestDay < day) {
-            nextAlarmDate = (parseInt(daysChecked[0]) + 7 - day); 
-        }
-        date.setDate(date.getDate() + nextAlarmDate);
-
         //passing in the time to the date
         date.setHours(hours);
         date.setMinutes(minutes);
         date.setSeconds(seconds);
+        date = setAlarmDate(date, daysChecked);
         var newAlarm = new Alarm(date, false, id, alarmName, daysChecked, true);
         alarms.push(newAlarm);
         console.log(alarms);
 
         addAlarmToPage(id, alarmName, date, true);
+        console.log(daysChecked);
+        var daysString = getDaysString(daysChecked);
         $.post("/Home/addAlarm", {
             alarmID: id,
             alarmDateTime: date.toLocaleDateString() + " " + date.toLocaleTimeString(),
             isEnabled: true,
             alarmName: alarmName,
-            alarmDays: daysChecked
+            alarmDays: daysString
         });
         id++;
     });
