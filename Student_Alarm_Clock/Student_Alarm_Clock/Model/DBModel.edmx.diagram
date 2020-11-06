@@ -4,10 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c32a39373c994cf4beb5e528d9b1495c" Name="Diagram1">
+      <Diagram DiagramId="c32a39373c994cf4beb5e528d9b1495c" Name="Diagram1" ZoomLevel="147">
         <EntityTypeShape EntityType="AlarmsModel.alarm_list" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlarmsModel.alarm_log" Width="1.5" PointX="5.125" PointY="0.75" />
-        <EntityTypeShape EntityType="AlarmsModel.user" Width="1.5" PointX="2.75" PointY="0.625" />
+        <EntityTypeShape EntityType="AlarmsModel.alarm_log" Width="1.5" PointX="4" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlarmsModel.user" Width="1.5" PointX="2.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
