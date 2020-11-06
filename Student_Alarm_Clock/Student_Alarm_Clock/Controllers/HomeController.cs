@@ -1,6 +1,7 @@
 ﻿using Student_Alarm_Clock.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
@@ -211,6 +212,30 @@ namespace Student_Alarm_Clock.Controllers
                 Debug.WriteLine(e);
                 return View("Index");
             }
+        }
+        [HttpPost]
+        [ActionName("deleteAlarm")]
+        public ActionResult deleteAlarm(alarm_list alarm)
+        {
+
+            using (var db = new AlarmsEntities())
+            {
+                bool oldValidateOnSaveEnabled = db.Configuration.ValidateOnSaveEnabled;
+                try
+                {
+                    db.Configuration.ValidateOnSaveEnabled = false;
+
+                    db.alarm_list.Attach(alarm);
+                    db.Entry(alarm).State = EntityState.Deleted;
+                    //db.alarm_list.Remove(alarm);
+                    db.SaveChanges();
+                }
+                finally
+                {
+                    db.Configuration.ValidateOnSaveEnabled = oldValidateOnSaveEnabled;
+                }
+            }
+            return View("Index");
         }
     }
 }
