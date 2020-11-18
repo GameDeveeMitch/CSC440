@@ -9,23 +9,30 @@
           <ScalarProperty Name="isEnabled" ColumnName="isEnabled" />
           <ScalarProperty Name="alarmName" ColumnName="alarmName" />
           <ScalarProperty Name="alarmDays" ColumnName="alarmDays" />
-          <ScalarProperty Name="userID" ColumnName="userID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="alarm_log">
+      <EntityTypeMapping TypeName="AlarmsModel.alarm_log">
+        <MappingFragment StoreEntitySet="alarm_log">
+          <ScalarProperty Name="logTime" ColumnName="logTime" />
+          <ScalarProperty Name="alarmUsed" ColumnName="alarmUsed" />
+          <ScalarProperty Name="redStatus" ColumnName="redStatus" />
+          <ScalarProperty Name="yellowStatus" ColumnName="yellowStatus" />
+          <ScalarProperty Name="alarmID" ColumnName="alarmID" />
+          <ScalarProperty Name="indexID" ColumnName="indexID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="users">
       <EntityTypeMapping TypeName="AlarmsModel.user">
-        <MappingFragment StoreEntitySet="users">
-          <ScalarProperty Name="userID" ColumnName="userID" />
-          <ScalarProperty Name="firstName" ColumnName="firstName" />
-          <ScalarProperty Name="lastName" ColumnName="lastName" />
-          <ScalarProperty Name="username" ColumnName="username" />
+        <MappingFragment StoreEntitySet="user">
+          <ScalarProperty Name="alarmID" ColumnName="alarmID" />
           <ScalarProperty Name="userPassword" ColumnName="userPassword" />
-          <ScalarProperty Name="redAlarmDateTime" ColumnName="redAlarmDateTime" />
-          <ScalarProperty Name="yellowAlarmDateTime" ColumnName="yellowAlarmDateTime" />
-          <ScalarProperty Name="redAlarmCount" ColumnName="redAlarmCount" />
-          <ScalarProperty Name="yellowAlarmCount" ColumnName="yellowAlarmCount" />
-          <ScalarProperty Name="isAsleep" ColumnName="isAsleep" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="lastName" ColumnName="lastName" />
+          <ScalarProperty Name="firstName" ColumnName="firstName" />
+          <ScalarProperty Name="userID" ColumnName="userID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
