@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Student_Alarm_Clock.Model
 {
-    public class UserInput
+    public class UserUpdate
     {
         public string userID { get; set; }
         public string firstName { get; set; }

@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap");
-@import url("https://fontlibrary.org/face/segment7");
+/*@import url("https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap");
+@import url("https://fontlibrary.org/face/segment7");*/
 /*!
  * bootswatch v3.4.1
  * Homepage: https://bootswatch.com
@@ -141,11 +141,15 @@ samp {
 }
 
 button,
-input,
 optgroup,
 select,
 textarea {
     color: inherit;
+    font: inherit;
+    margin: 0;
+}
+
+input {
     font: inherit;
     margin: 0;
 }

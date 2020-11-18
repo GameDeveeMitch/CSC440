@@ -5,88 +5,12 @@
 }
 <script type="text/javascript" src="~/Scripts/Custom/user.js"></script>
 
-<script>
-    function formValidation() {
-        //validate inputs for being unique
-        //validate inputs for being valid
-        let firstName = document.getElementById('firstName').value;
-        let lastName = document.getElementById('lastName').value;
-        let username = document.getElementById("username").value;
-        let userPass1 = document.getElementById('userPass1').value;
-        let userPass2 = document.getElementById('userPass2').value;
-        minlength = 3;
-        maxlength = 24;
-        digits = "1234567890";
-
-        for (i = 0; i < firstName.length; i++) {
-            if (digits.indexOf(firstName.charAt(i)) == 1) {
-                alert("Name Must Not Contain Numbers");
-                return false;
-            }
-        }
-        for (i = 0; i < lastName.length; i++) {
-            if (digits.indexOf(lastName.charAt(i)) == 1) {
-                alert("Name Must Not Contain Numbers");
-                return false;
-            }
-        }
-        if (firstName != undefined) {
-            if (firstName.length < minlength) {
-                alert("First name is less than " + minlength + " characters");
-                return false;
-            }
-            if (firstName.length > maxlength) {
-                alert("First name is greater than " + maxlength + " characters");
-                return false;
-            }
-        }
-        if (lastName != undefined) {
-            if (lastName.length < minlength) {
-                alert("Last name is less than " + minlength + " characters");
-                return false;
-            }
-            if (lastName.length > maxlength) {
-                alert("Last name is greater than " + maxlength + " characters");
-                return false;
-            }
-        }
-        if (username != undefined) {
-            if (username.length < minlength) {
-                alert("Username is less than " + minlength + " characters");
-                return false;
-            }
-            if (username.length > maxlength) {
-                alert("Username name is greater than " + maxlength + " characters");
-                return false;
-            }
-        }
-        if (userPass1 && userPass2 != undefined) {
-            if (userPass1.v == userPass2.value) {
-                //get his ass
-                alert("Passwords do not match");
-                return false;
-            }
-            if (userPass1.length < minlength) {
-                alert("Password is less than " + minlength + " characters");
-                return false;
-            }
-            if (userPass1.length > maxlength) {
-                alert("Password is greater than " + maxlength + " characters");
-                return false;
-            }
-        } else {
-            alert("Enter a password")
-        }
-        return false;
-    }
-</script>
-
 <br />
 
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <h1>
+            <h1 style="padding-top: 20px;">
                 Sign up for our alarm clock application!
             </h1>
         </div>
@@ -144,7 +68,7 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <input type="text" id="userPass1" placeholder="" required />
+                    <input type="password" id="userPass1" placeholder="" required />
                 </div>
             </div>
 
@@ -156,7 +80,7 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <input type="text" id="userPass2" placeholder="" required />
+                    <input type="password" id="userPass2" placeholder="" required />
                 </div>
             </div>
 
@@ -164,13 +88,18 @@
 
             <div class="row">
                 <div class="col-sm-3">
-                    <input class="button" type="submit" value="Submit" name="submit" id="submitUser" @*onclick="formValidation()"*@ />
+                    <input class="button" type="button" value="Submit" name="submit" id="submitUser" />
                 </div>
                 <div class="col-sm-3">
                     All fields are required.
                 </div>
             </div>
-    </form>
+            <div class="row">
+                <div>
+                    <input class="btn btn-block hidden" id="signupResult" style="margin-top: 30px;" />
+                </div>
+            </div>
+</form>
 </div>
 
 

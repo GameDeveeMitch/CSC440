@@ -10,6 +10,49 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </head>
+<script>
+    class User {
+        constructor(userId, firstName, lastName, username, yellowAlarmTime, redAlarmTime, redAlarmCount, yellowAlarmCount, isAsleep) {
+            this.userId = userId;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.username = username;
+            this.yellowAlarmTime = yellowAlarmTime;
+            this.redAlarmTime = redAlarmTime;
+            this.redAlarmCount = redAlarmCount;
+            this.yellowAlarmCount = yellowAlarmCount;
+            this.isAsleep = isAsleep;
+        }
+    }
+    $(document).ready(function () {
+        var user = null;
+        //check if user is set to something first, if not, then we set the yellow and red alarms to their defaults.
+        if (localStorage.getItem("user") == null) {
+            var d = new Date(0, 0, 0, 8, 0, 0, 0);
+            var d2 = new Date(0, 0, 0, 6, 0, 0, 0);
+            var user = new User(0, "first", "last", "Default", d, d2, 0, 0, false);
+            $("#account").addClass("hidden");
+            $("#signUp").removeClass("hidden");
+            $("#login").removeClass("hidden");
+        }
+        else {
+            user = JSON.parse(localStorage.getItem("user"));
+            user.redAlarmTime = new Date(Date.parse(user.redAlarmTime));
+            user.yellowAlarmTime = new Date(Date.parse(user.yellowAlarmTime));
+            if (user.userId == 0) {
+                $("#account").addClass("hidden");
+                $("#signUp").removeClass("hidden");
+                $("#login").removeClass("hidden");
+            }
+            else {
+                $("#signUp").addClass("hidden");
+                $("#login").addClass("hidden");
+                $("#account").removeClass("hidden");
+                $("#account").html("<a href=\"/Home/Account\">" + user.username + "</a>");
+            }
+        }
+    });
+</script>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -22,13 +65,10 @@
                 @Html.ActionLink("Alarm Clock", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Account", "Account", "Home")</li>
-                    <li>@Html.ActionLink("Sign Up", "AccountSignUp", "Home")</li>
-                    <li>@Html.ActionLink("Log in", "AccountLogin", "Home")</li>
+                <ul class="nav navbar-nav navbar-right">
+                    <li id="account">@Html.ActionLink("Account", "Account", "Home")</li>
+                    <li id="signUp">@Html.ActionLink("Sign Up", "AccountSignUp", "Home")</li>
+                    <li id="login">@Html.ActionLink("Log in", "AccountLogin", "Home")</li>
                 </ul>
             </div>
         </div>
