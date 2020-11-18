@@ -26,6 +26,7 @@ namespace Student_Alarm_Clock.Model
         }
     
         public virtual DbSet<alarm_list> alarm_list { get; set; }
+        public virtual DbSet<alarm_log> alarm_log { get; set; }
         public virtual DbSet<user> users { get; set; }
     }
 }
