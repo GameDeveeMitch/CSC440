@@ -1,32 +1,13 @@
-﻿
-
-@{
+﻿@{
     ViewBag.Title = "AccountLogin";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript" src="~/Scripts/Custom/user.js"></script>
 
-<script>
-    function formValidation() {
-        let validated = true;
-        let username = document.getElementById("username").value;
-        let userPass = document.getElementById('password').value;
-        //is input valid
-        if (userName != undefined) {
-            if (userName.length < 8) {
-                validated = false;
-                return validated
-            }
-        }
-        //is username + password combo valid
-        //contact server
-    }
-</script>
-
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <h1>
+            <h1 style="padding-top: 40px;">
                 Alarm Clock Login
             </h1>
         </div>
@@ -60,7 +41,7 @@
                 </div>
 
                 <div class="col-sm-3">
-                    <input type="text" id="password" placeholder="" required />
+                    <input type="password" id="password" placeholder="" required />
                 </div>
             </div>
 
@@ -68,7 +49,12 @@
 
             <div class="row">
                 <div class="col-lg-1">
-                    <input class="button" type="submit" value="Submit" name="submit" onclick="formValidation()" />
+                    <input class="button" id="submitLogin" type="button" value="Submit" />
+                </div>
+            </div>
+            <div class="row">
+                <div >
+                    <input class="btn btn-block hidden" id="result" style="margin-top: 30px;" />
                 </div>
             </div>
         </div>

@@ -19,5 +19,6 @@ namespace Student_Alarm_Clock.Model
         public Nullable<bool> isEnabled { get; set; }
         public string alarmName { get; set; }
         public string alarmDays { get; set; }
+        public Nullable<int> userID { get; set; }
     }
 }

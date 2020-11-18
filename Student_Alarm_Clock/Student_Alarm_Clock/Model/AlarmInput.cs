@@ -12,5 +12,6 @@ namespace Student_Alarm_Clock.Model
         public string isEnabled { get; set; }
         public string alarmName { get; set; }
         public string alarmDays { get; set; }
+        public string userId { get; set; }
     }
 }

@@ -9,6 +9,7 @@
     <Property Name="isEnabled" Type="bit" />
     <Property Name="alarmName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="alarmDays" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="userID" Type="int" />
   </EntityType>
   <EntityType Name="users">
     <Key>
@@ -19,10 +20,30 @@
     <Property Name="lastName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="userPassword" Type="varchar" MaxLength="100" Nullable="false" />
-    <Property Name="alarmID" Type="varchar" MaxLength="1000" />
+    <Property Name="redAlarmDateTime" Type="datetime" />
+    <Property Name="yellowAlarmDateTime" Type="datetime" />
+    <Property Name="redAlarmCount" Type="int" />
+    <Property Name="yellowAlarmCount" Type="int" />
+    <Property Name="isAsleep" Type="bit" />
   </EntityType>
+  <Association Name="FK__alarm_lis__userI__04E4BC85">
+    <End Role="users" Type="Self.users" Multiplicity="0..1" />
+    <End Role="alarm_list" Type="Self.alarm_list" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="userID" />
+      </Principal>
+      <Dependent Role="alarm_list">
+        <PropertyRef Name="userID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="AlarmsModelStoreContainer">
     <EntitySet Name="alarm_list" EntityType="Self.alarm_list" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__alarm_lis__userI__04E4BC85" Association="Self.FK__alarm_lis__userI__04E4BC85">
+      <End Role="users" EntitySet="users" />
+      <End Role="alarm_list" EntitySet="alarm_list" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

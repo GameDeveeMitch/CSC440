@@ -19,6 +19,10 @@ namespace Student_Alarm_Clock.Model
         public string lastName { get; set; }
         public string username { get; set; }
         public string userPassword { get; set; }
-        public string alarmID { get; set; }
+        public Nullable<System.DateTime> redAlarmDateTime { get; set; }
+        public Nullable<System.DateTime> yellowAlarmDateTime { get; set; }
+        public Nullable<int> redAlarmCount { get; set; }
+        public Nullable<int> yellowAlarmCount { get; set; }
+        public Nullable<bool> isAsleep { get; set; }
     }
 }

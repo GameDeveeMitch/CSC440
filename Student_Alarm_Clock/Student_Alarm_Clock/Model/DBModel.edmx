@@ -14,6 +14,7 @@
           <Property Name="isEnabled" Type="bit" />
           <Property Name="alarmName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="alarmDays" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="userID" Type="int" />
         </EntityType>
         <EntityType Name="users">
           <Key>
@@ -24,11 +25,31 @@
           <Property Name="lastName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="userPassword" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="alarmID" Type="varchar" MaxLength="1000" />
+          <Property Name="redAlarmDateTime" Type="datetime" />
+          <Property Name="yellowAlarmDateTime" Type="datetime" />
+          <Property Name="redAlarmCount" Type="int" />
+          <Property Name="yellowAlarmCount" Type="int" />
+          <Property Name="isAsleep" Type="bit" />
         </EntityType>
+        <Association Name="FK__alarm_lis__userI__04E4BC85">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="alarm_list" Type="Self.alarm_list" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="alarm_list">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="AlarmsModelStoreContainer">
           <EntitySet Name="alarm_list" EntityType="Self.alarm_list" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__alarm_lis__userI__04E4BC85" Association="Self.FK__alarm_lis__userI__04E4BC85">
+            <End Role="users" EntitySet="users" />
+            <End Role="alarm_list" EntitySet="alarm_list" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -44,6 +65,7 @@
           <Property Name="isEnabled" Type="Boolean" />
           <Property Name="alarmName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="alarmDays" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userID" Type="Int32" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -54,11 +76,31 @@
           <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="userPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="alarmID" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="redAlarmDateTime" Type="DateTime" Precision="3" />
+          <Property Name="yellowAlarmDateTime" Type="DateTime" Precision="3" />
+          <Property Name="redAlarmCount" Type="Int32" />
+          <Property Name="yellowAlarmCount" Type="Int32" />
+          <Property Name="isAsleep" Type="Boolean" />
         </EntityType>
+        <Association Name="FK__alarm_lis__userI__04E4BC85">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="alarm_list" Type="Self.alarm_list" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="alarm_list">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="AlarmsEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="alarm_list" EntityType="Self.alarm_list" />
           <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK__alarm_lis__userI__04E4BC85" Association="Self.FK__alarm_lis__userI__04E4BC85">
+            <End Role="users" EntitySet="users" />
+            <End Role="alarm_list" EntitySet="alarm_list" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -74,6 +116,7 @@
                 <ScalarProperty Name="isEnabled" ColumnName="isEnabled" />
                 <ScalarProperty Name="alarmName" ColumnName="alarmName" />
                 <ScalarProperty Name="alarmDays" ColumnName="alarmDays" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -85,7 +128,11 @@
                 <ScalarProperty Name="lastName" ColumnName="lastName" />
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="userPassword" ColumnName="userPassword" />
-                <ScalarProperty Name="alarmID" ColumnName="alarmID" />
+                <ScalarProperty Name="redAlarmDateTime" ColumnName="redAlarmDateTime" />
+                <ScalarProperty Name="yellowAlarmDateTime" ColumnName="yellowAlarmDateTime" />
+                <ScalarProperty Name="redAlarmCount" ColumnName="redAlarmCount" />
+                <ScalarProperty Name="yellowAlarmCount" ColumnName="yellowAlarmCount" />
+                <ScalarProperty Name="isAsleep" ColumnName="isAsleep" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

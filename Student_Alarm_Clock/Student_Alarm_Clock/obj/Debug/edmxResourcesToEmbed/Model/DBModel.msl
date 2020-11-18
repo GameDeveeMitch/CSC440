@@ -9,6 +9,7 @@
           <ScalarProperty Name="isEnabled" ColumnName="isEnabled" />
           <ScalarProperty Name="alarmName" ColumnName="alarmName" />
           <ScalarProperty Name="alarmDays" ColumnName="alarmDays" />
+          <ScalarProperty Name="userID" ColumnName="userID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -20,7 +21,11 @@
           <ScalarProperty Name="lastName" ColumnName="lastName" />
           <ScalarProperty Name="username" ColumnName="username" />
           <ScalarProperty Name="userPassword" ColumnName="userPassword" />
-          <ScalarProperty Name="alarmID" ColumnName="alarmID" />
+          <ScalarProperty Name="redAlarmDateTime" ColumnName="redAlarmDateTime" />
+          <ScalarProperty Name="yellowAlarmDateTime" ColumnName="yellowAlarmDateTime" />
+          <ScalarProperty Name="redAlarmCount" ColumnName="redAlarmCount" />
+          <ScalarProperty Name="yellowAlarmCount" ColumnName="yellowAlarmCount" />
+          <ScalarProperty Name="isAsleep" ColumnName="isAsleep" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
